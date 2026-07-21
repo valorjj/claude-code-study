@@ -15,20 +15,28 @@ export function hasMdFile(key: string): boolean {
   return KEYS.has(key);
 }
 
-/** Cached content map, populated on the first loadMdFile() call. */
+/** Cached content map, populated on the first loadAllMdFiles() call. */
 let cache: Record<string, MdFile> | null = null;
 
 /**
- * Lazily resolve one embedded file's content. The ~224KB mdFiles.json is a
- * separate async chunk that is fetched only on the first call (i.e. the first
- * time the Monokai viewer opens), then cached for subsequent opens. Returns
- * null for unknown keys.
+ * Lazily load the full embedded-content map. The ~224KB mdFiles.json is a
+ * separate async chunk, fetched only on the first call (first modal open OR
+ * first search), then cached. Shared by loadMdFile and the search index.
  */
-export async function loadMdFile(key: string): Promise<MdFile | null> {
-  if (!KEYS.has(key)) return null;
+export async function loadAllMdFiles(): Promise<Record<string, MdFile>> {
   if (!cache) {
     const mod = await import("./mdFiles.json");
     cache = (mod.default ?? mod) as Record<string, MdFile>;
   }
-  return cache[key] ?? null;
+  return cache;
+}
+
+/**
+ * Lazily resolve one embedded file's content (via the shared cache). Returns
+ * null for unknown keys.
+ */
+export async function loadMdFile(key: string): Promise<MdFile | null> {
+  if (!KEYS.has(key)) return null;
+  const map = await loadAllMdFiles();
+  return map[key] ?? null;
 }
