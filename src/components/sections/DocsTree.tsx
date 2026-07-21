@@ -44,7 +44,7 @@ const TREE = `apps/process-governance/
 └─ memory/                             # (외부) 세션 간 지식 — MEMORY.md 인덱스 + per-fact 파일`;
 
 // token found in TREE  ->  md file key (first occurrence wrapped as a clickable chip)
-const WRAPS: [string, string][] = [
+export const WRAPS: [string, string][] = [
   ["CLAUDE.md", "apps/process-governance/CLAUDE.md"],
   ["svelte5-boxwood/", ".claude/skills/svelte5-boxwood/"],
   ["pap-policy-guard.mjs", ".claude/hooks/pap-policy-guard.mjs"],
