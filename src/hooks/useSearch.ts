@@ -46,7 +46,10 @@ export function useSearch(): {
         );
         setFileReady(true);
       })
-      .catch(() => setFailed(true));
+      .catch((err) => {
+        console.warn("useSearch: failed to load file index chunk", err);
+        setFailed(true);
+      });
   }, []);
 
   const results = useMemo<SearchResult[]>(() => {

@@ -23,6 +23,11 @@ export default function SearchBox() {
   const { query, setQuery, results, loading, ensureFiles } = useSearch();
   const { open } = useMd();
   const [active, setActive] = useState(0);
+  // Tracks input focus so the results dropdown dismisses on blur instead of
+  // staying open forever once a query string exists. Blur is deferred with a
+  // short timeout so an option's onMouseDown activation still fires before
+  // the list unmounts out from under the click.
+  const [focused, setFocused] = useState(false);
   // Reset the active index when the result set changes (new query, or the
   // file index landing mid-query). Done during render — not a useEffect —
   // per React's "adjusting state when a prop changes" pattern: this is
@@ -33,7 +38,8 @@ export default function SearchBox() {
     setActive(0);
   }
 
-  const show = query.trim().length > 0;
+  const show = focused && query.trim().length > 0;
+  const activeId = show && results[active] ? `search-opt-${active}` : undefined;
 
   function onKeyDown(e: React.KeyboardEvent<HTMLInputElement>) {
     if (e.key === "Escape") {
@@ -65,13 +71,26 @@ export default function SearchBox() {
         type="search"
         placeholder="검색… (문서 · 파일)"
         aria-label="검색"
+        role="combobox"
+        aria-expanded={show}
+        aria-controls="search-results"
+        aria-activedescendant={activeId}
         value={query}
-        onFocus={ensureFiles}
-        onChange={(e) => setQuery(e.target.value)}
+        onFocus={() => {
+          setFocused(true);
+          ensureFiles();
+        }}
+        onBlur={() => {
+          window.setTimeout(() => setFocused(false), 120);
+        }}
+        onChange={(e) => {
+          setFocused(true);
+          setQuery(e.target.value);
+        }}
         onKeyDown={onKeyDown}
       />
       {show && (
-        <ul className="search-results" role="listbox" aria-label="검색 결과">
+        <ul id="search-results" className="search-results" role="listbox" aria-label="검색 결과">
           {results.map((r, i) => {
             const isSection = r.record.kind === "section";
             const rowKey = r.record.kind === "section" ? `s:${r.record.id}` : `f:${r.record.key}`;
@@ -79,6 +98,7 @@ export default function SearchBox() {
             return (
               <li
                 key={rowKey}
+                id={`search-opt-${i}`}
                 role="option"
                 aria-selected={i === active}
                 className={`search-hit${i === active ? " active" : ""}${isSection ? "" : " is-file"}`}
@@ -100,8 +120,16 @@ export default function SearchBox() {
               </li>
             );
           })}
-          {loading && <li className="search-note">검색 준비 중…</li>}
-          {!loading && results.length === 0 && <li className="search-note">결과 없음</li>}
+          {loading && (
+            <li className="search-note" role="presentation">
+              검색 준비 중…
+            </li>
+          )}
+          {!loading && results.length === 0 && (
+            <li className="search-note" role="presentation">
+              결과 없음
+            </li>
+          )}
         </ul>
       )}
     </div>

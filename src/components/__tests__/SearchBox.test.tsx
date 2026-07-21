@@ -46,4 +46,16 @@ describe("SearchBox", () => {
       expect(document.querySelector(".md-path")?.textContent).toBe("CLAUDE.md");
     });
   });
+
+  it("dismisses the results list after the input blurs", async () => {
+    render(<SearchBox />);
+    const input = screen.getByLabelText("검색");
+    fireEvent.focus(input);
+    fireEvent.change(input, { target: { value: "질문" } });
+    expect(screen.getByRole("listbox")).toBeTruthy();
+    fireEvent.blur(input);
+    await waitFor(() => {
+      expect(screen.queryByRole("listbox")).toBeNull();
+    });
+  });
 });
