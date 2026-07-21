@@ -1,5 +1,6 @@
 "use client";
 import { useCallback, useEffect, useLayoutEffect, useRef, useState } from "react";
+import "./ArchDiagram.css";
 import {
   ARCH_COLUMNS,
   ARCH_EDGES,

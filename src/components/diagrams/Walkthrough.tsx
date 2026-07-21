@@ -2,6 +2,7 @@
 import { PHASE_CLASS, WALK_STEPS } from "@/lib/data/walkSteps";
 import { useStepper } from "@/hooks/useStepper";
 import FileChip from "../FileChip";
+import "./Walkthrough.css";
 
 const fmtSpeed = (v: number) => (v % 1 === 0 ? v.toFixed(0) : String(v)) + "×";
 

@@ -1,0 +1,21 @@
+/* Q&A cases (how to ask — 大/中/小). Co-located with Questioning.tsx.
+   Global-scope; class names unchanged. .case-badge.mid/.small and .qa-turn.q/.a
+   variants distinguish request size / question-vs-answer. */
+.case { border:1px solid var(--pap-border); border-radius:12px; padding:16px 18px; margin:0 0 16px; background:var(--pap-bg); }
+.case-head { display:flex; align-items:center; gap:10px; margin-bottom:2px; }
+.case-badge { font:800 .8rem/1 var(--font-mono); color:#fff; background:var(--pap-accent); border-radius:6px; padding:6px 10px; flex:0 0 auto; }
+.case-badge.mid { background:#7a8bd0; }
+.case-badge.small { background:#57ab5a; }
+.case-head h3 { margin:0; }
+.case-key { font-size:.9em; color:var(--pap-ink-500); margin:0 0 12px; }
+.qa { display:flex; flex-direction:column; gap:8px; }
+.qa-turn { border-radius:10px; padding:9px 13px; font-size:.93em; }
+.qa-turn.q { background:var(--pap-accent-soft); border:1px solid #cfe0fb; }
+.qa-turn.a { background:var(--pap-surface); border:1px solid var(--pap-border); }
+.qa-hd { display:flex; align-items:center; gap:8px; margin-bottom:3px; flex-wrap:wrap; }
+.qa-role { font:700 .68rem/1 var(--font-sans); letter-spacing:.04em; text-transform:uppercase; }
+.qa-turn.q .qa-role { color:var(--pap-accent-strong); }
+.qa-turn.a .qa-role { color:var(--pap-ink-500); }
+.qa-tag { font:600 .67rem/1 var(--font-sans); color:var(--pap-ink-700); background:var(--pap-bg); border:1px solid var(--pap-border); border-radius:5px; padding:3px 7px; }
+.qa-turn p { margin:0; color:var(--pap-ink-900); }
+.qa-turn.a p { color:var(--pap-ink-700); }

@@ -1,0 +1,5 @@
+/* Architecture section — legend for the animated arch diagram.
+   Co-located with Architecture.tsx (which renders ARCH_LEGEND). Global-scope. */
+.legend { display:flex; flex-wrap:wrap; gap:8px 16px; margin:2px 0 14px; font-size:var(--pap-fs-small); }
+.legend .lg { display:inline-flex; align-items:center; gap:7px; color:var(--pap-ink-700); }
+.legend .sw { width:13px; height:13px; border-radius:4px; border:1.5px solid; flex:0 0 auto; }

@@ -1,3 +1,4 @@
+import "./page.css";
 import ProgressBar from "@/components/ProgressBar";
 import Sidebar from "@/components/Sidebar";
 import Intro from "@/components/sections/Intro";

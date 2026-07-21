@@ -1,5 +1,6 @@
 import type { ReactNode } from "react";
 import FileChip from "../FileChip";
+import "./DocsTree.css";
 
 const TREE = `apps/process-governance/
 ├─ CLAUDE.md                           # 앵커: 불변 규칙 + 작업 라우터 (매 세션 자동 READ)

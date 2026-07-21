@@ -1,5 +1,6 @@
 import { ARCH_LEGEND } from "@/lib/data/archModel";
 import ArchDiagram from "../diagrams/ArchDiagram";
+import "./Architecture.css";
 
 /** 전체 데이터 플로우 · 아키텍처 — animated layered architecture. */
 export default function Architecture() {

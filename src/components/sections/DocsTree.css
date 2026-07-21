@@ -1,0 +1,7 @@
+/* File-tree block. Co-located with DocsTree.tsx.
+   Global-scope; class names unchanged. .tree-file marks clickable filenames
+   (resolved via hasMdFile); the click opens the Monokai viewer. */
+pre.filetree { background:var(--pap-surface); border:1px solid var(--pap-border); border-radius:12px; padding:20px 22px;
+  overflow-x:auto; font-family:var(--font-mono); font-size:.82rem; line-height:1.62; color:var(--pap-ink-900); margin:6px 0 4px; }
+pre.filetree .tree-file { color:var(--pap-accent-strong); text-decoration:underline dotted; text-underline-offset:2px; cursor:pointer; }
+pre.filetree .tree-file:hover { background:var(--pap-accent-soft); border-radius:3px; }

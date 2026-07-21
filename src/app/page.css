@@ -1,0 +1,13 @@
+/* Page shell layout (two-column: sticky TOC + scrolling content).
+   Co-located with page.tsx. Global-scope; class names unchanged from the doc.
+   #intro and .doc-section ids are also scrollspy/TOC-anchor targets. */
+.layout { display:flex; align-items:flex-start; }
+.content { flex:1 1 auto; max-width:900px; margin:0 auto; padding:0 clamp(20px,5vw,72px) 140px; min-width:0; }
+.doc-section { padding:52px 0 8px; border-bottom:1px solid var(--pap-border); scroll-margin-top:24px; }
+.doc-section:last-child { border-bottom:none; }
+#intro { padding-top:68px; }
+
+@media (max-width:920px) {
+  .layout { flex-direction:column; }
+  #intro { padding-top:36px; }
+}

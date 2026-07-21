@@ -1,6 +1,7 @@
 "use client";
 import { useCallback, useEffect, useLayoutEffect, useRef, useState } from "react";
 import { SIZE_BRANCHES } from "@/lib/data/sizeModel";
+import "./SizeFlow.css";
 
 type Pt = { x: number; y: number };
 

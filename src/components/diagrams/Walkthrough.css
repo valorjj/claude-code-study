@@ -1,0 +1,37 @@
+/* Walkthrough (animated decision flow). Co-located with Walkthrough.tsx.
+   Global-scope; class names unchanged. The .phase-* and .js-anim/.done/.current
+   state classes are applied from JS/data (PHASE_CLASS), so they must not be hashed.
+   .walk-speed* is shared with ArchDiagram (both playback controls). */
+.walk { border:1px solid var(--pap-border); border-radius:12px; background:var(--pap-bg); overflow:hidden; }
+.walk-controls { display:flex; align-items:center; gap:8px; padding:12px 14px; border-bottom:1px solid var(--pap-border); background:var(--pap-surface); }
+.walk-controls button { font:600 .86rem/1 var(--font-sans); color:var(--pap-ink-700); background:var(--pap-bg); border:1px solid var(--pap-border); border-radius:8px; padding:8px 12px; cursor:pointer; }
+.walk-controls button:hover { background:var(--pap-accent-soft); color:var(--pap-accent-strong); border-color:var(--pap-accent); }
+.walk-controls .walk-play { min-width:92px; }
+.walk-speed { display:inline-flex; align-items:center; gap:6px; margin-left:auto; font:600 .82rem/1 var(--font-sans); color:var(--pap-ink-500); }
+.walk-speed input[type=range] { width:88px; accent-color:var(--pap-accent); cursor:pointer; }
+.walk-speed-val { font-family:var(--font-mono); color:var(--pap-ink-700); min-width:30px; }
+.walk-count { font:700 .84rem/1 var(--font-mono); color:var(--pap-ink-500); }
+.walk-timeline { list-style:none; margin:0; padding:12px 16px 18px; }
+.walk-step { display:grid; grid-template-columns:30px 1fr; gap:12px; align-items:stretch; padding:5px 0; cursor:pointer; }
+.walk-marker { display:flex; flex-direction:column; align-items:center; }
+.walk-num { width:26px; height:26px; border-radius:50%; display:flex; align-items:center; justify-content:center;
+  font:700 .78rem/1 var(--font-mono); color:var(--pap-ink-500); background:var(--pap-surface); border:1.5px solid var(--pap-border); flex:0 0 auto; transition:all .2s; }
+.walk-step:not(:last-child) .walk-marker::after { content:""; width:2px; flex:1 1 auto; min-height:12px; background:var(--pap-border); margin-top:4px; }
+.walk-card { border:1px solid var(--pap-border); border-radius:10px; padding:10px 14px; background:var(--pap-bg); transition:border-color .2s, background .2s, box-shadow .2s; }
+.walk-card h4 { margin:6px 0 5px; font-size:1rem; color:var(--pap-ink-900); }
+.walk-card p { margin:0; font-size:.9em; color:var(--pap-ink-700); }
+.walk-files { display:flex; flex-wrap:wrap; gap:6px; margin:2px 0 7px; }
+.walk-files code { font-size:.76em; }
+.phase { display:inline-block; font:700 .66rem/1 var(--font-sans); letter-spacing:.05em; text-transform:uppercase; padding:4px 8px; border-radius:6px; }
+.phase-req { background:#17161B; color:#fff; }
+.phase-read { background:var(--pap-accent-soft); color:var(--pap-accent-strong); }
+.phase-proc { background:var(--pap-surface-2); color:var(--pap-ink-700); }
+.phase-judge { background:var(--pap-surface); color:var(--pap-ink-500); border:1px solid var(--pap-border); }
+.phase-gate { background:#fff4e5; color:#b45900; }
+.phase-write { background:#eaf7ec; color:#2f7d38; }
+.walk.js-anim .walk-step { opacity:.48; transition:opacity .25s; }
+.walk.js-anim .walk-step.done { opacity:.8; }
+.walk.js-anim .walk-step.current { opacity:1; }
+.walk.js-anim .walk-step.current .walk-card { border-color:var(--pap-accent); background:var(--pap-accent-soft); box-shadow:0 2px 14px rgba(76,143,240,.18); }
+.walk.js-anim .walk-step.current .walk-num { color:#fff; background:var(--pap-accent); border-color:var(--pap-accent); box-shadow:0 0 0 4px var(--pap-accent-soft); }
+.walk.js-anim .walk-step.done .walk-num { color:#fff; background:var(--pap-ink-300); border-color:var(--pap-ink-300); }

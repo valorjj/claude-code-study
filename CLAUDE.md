@@ -17,8 +17,14 @@ only a background example.
 1. **Never hand-edit `src/lib/mdFiles.json`.** It is **generated** from `content/` by the
    content pipeline. Edit the file under `content/` (and `content/manifest.json`), then run
    `npm run content`. CI fails if the committed JSON drifts from `content/`.
-2. **Styling is global** (`src/app/globals.css`, design tokens + component styles). Keep the
-   look identical when refactoring; per-component CSS Modules are welcome *additively*.
+2. **Styling is global, but co-located.** `src/app/globals.css` holds *only* design tokens +
+   element defaults + a few cross-cutting helpers. Component-owned styles live in a plain
+   `.css` file next to the component (e.g. `Walkthrough.css`), imported from its `.tsx` —
+   **global scope, class names unchanged**, so the cascade is identical to the source doc.
+   These are deliberately **not** CSS Modules: many class names are generated in JS/data
+   (`PHASE_CLASS`, `L-*` layer colors, `e-*` edge strokes, `case-badge mid`, the
+   `js-anim`/`current`/`done`/`hi`/`on` state classes) and section `id`s drive scrollspy +
+   TOC anchors — hashing them would break rendering. Keep the look identical when refactoring.
 3. **Client vs server**: interactive pieces (`"use client"`) live in `components/diagrams/*`,
    `MdModalProvider`, `Sidebar`, `ProgressBar`, `FileChip`. Sections are server components.
 4. **No network at runtime**: content is embedded; do not fetch remote assets/fonts.
@@ -32,7 +38,8 @@ only a background example.
 | **add / edit a section** | add `components/sections/<Name>.tsx`, register it in `src/app/page.tsx`, add a `{id,label}` to `src/lib/data/toc.ts` (id must equal the `<section id>`) |
 | **change the walkthrough / arch / size diagram** | edit data in `src/lib/data/*.ts`; behavior in `components/diagrams/*` + `hooks/useStepper.ts` |
 | **change the markdown viewer / copy** | `components/MdModalProvider.tsx` + `lib/mdHighlight.ts` |
-| **change tokens / global styles** | `src/app/globals.css` |
+| **change tokens / global base** | `src/app/globals.css` (tokens + element defaults + shared helpers only) |
+| **change a component's styles** | edit the co-located `<Component>.css` next to its `.tsx` (global scope, unchanged class names) |
 | **add a rule you keep repeating** | promote it to a test/CI check (see `.github/workflows/ci.yml`) |
 
 ## Commands
@@ -52,11 +59,11 @@ Node ≥ 20 (`.nvmrc` = 22).
 content/            # SSOT for embedded reference files + manifest.json
 scripts/build-content.mjs   # content/ -> src/lib/mdFiles.json
 src/
-├─ app/             layout.tsx · page.tsx (section order) · globals.css
-├─ components/  Sidebar · ProgressBar · MdModalProvider · FileChip
-│  ├─ diagrams/ Walkthrough · ArchDiagram · SizeFlow
+├─ app/             layout.tsx · page.tsx (section order) · page.css · globals.css (tokens+base)
+├─ components/  Sidebar · ProgressBar · MdModalProvider · FileChip  (+ co-located <Name>.css)
+│  ├─ diagrams/ Walkthrough · ArchDiagram · SizeFlow                (+ co-located <Name>.css)
 │  └─ sections/ Intro · Example · DocsTree · Architecture · Harness · Sizing ·
-│               Quality · Pain · Stuck · Questioning · Adopt
+│               Quality · Pain · Stuck · Questioning · Adopt        (Architecture/DocsTree/Questioning have .css)
 ├─ hooks/       useScrollspy · useStepper
 └─ lib/         mdHighlight.ts · mdFiles.(ts|json) · data/*.ts
 ```

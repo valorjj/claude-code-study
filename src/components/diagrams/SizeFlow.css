@@ -1,0 +1,17 @@
+/* Size-flow (request-size decision map, hand-built HTML — no text clipping).
+   Co-located with SizeFlow.tsx. Global-scope; class names unchanged.
+   .sbadge.mid/.big and .snode.term/.dec/.gate variants are set from data. */
+.sflow { position:relative; display:grid; grid-template-columns:auto auto minmax(280px,1fr) auto; gap:30px; align-items:center; padding:24px 22px; border:1px solid var(--pap-border); border-radius:12px; background:var(--pap-bg); overflow-x:auto; min-width:820px; }
+.sflow-edges { position:absolute; inset:0; width:100%; height:100%; pointer-events:none; overflow:visible; z-index:1; }
+.scol { position:relative; z-index:2; display:flex; flex-direction:column; gap:16px; }
+.snode { border:1px solid var(--pap-border); border-radius:9px; background:var(--pap-surface); padding:11px 14px; font-size:.9rem; color:var(--pap-ink-900); }
+.snode.term { background:#17161B; color:#fff; border-color:#17161B; text-align:center; border-radius:22px; align-self:center; font-weight:600; }
+.snode.dec { text-align:center; font-weight:600; }
+.snode.gate { background:#fff4e5; border-color:#e08a00; color:#8a5a00; text-align:center; font-weight:600; }
+.sbranch { display:flex; align-items:center; gap:11px; border:1px solid var(--pap-border); border-radius:9px; background:var(--pap-bg); padding:10px 13px; }
+.sbadge { font:800 .85rem/1 var(--font-mono); color:#fff; background:var(--pap-accent); border-radius:6px; padding:7px 10px; flex:0 0 auto; }
+.sbadge.mid { background:#7a8bd0; }
+.sbadge.big { background:#3b7fe0; }
+.sbr-t { font-weight:600; color:var(--pap-ink-900); font-size:.9rem; }
+.sbr-s { font-size:.76rem; color:var(--pap-ink-500); margin-top:2px; }
+.sflow-edges path { fill:none; stroke:#b8b8bb; stroke-width:1.8; }

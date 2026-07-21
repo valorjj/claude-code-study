@@ -2,6 +2,7 @@
 import { createContext, useCallback, useContext, useEffect, useRef, useState } from "react";
 import { hasMdFile, loadMdFile, type MdFile } from "@/lib/mdFiles";
 import { highlightMarkdown } from "@/lib/mdHighlight";
+import "./MdModalProvider.css";
 
 type Ctx = { open: (key: string) => void };
 const MdCtx = createContext<Ctx>({ open: () => {} });

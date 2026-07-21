@@ -1,6 +1,7 @@
 "use client";
 import { TOC } from "@/lib/data/toc";
 import { useScrollspy } from "@/hooks/useScrollspy";
+import "./Sidebar.css";
 
 const IDS = TOC.map((t) => t.id);
 

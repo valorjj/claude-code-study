@@ -1,5 +1,6 @@
 "use client";
 import { useEffect, useState } from "react";
+import "./ProgressBar.css";
 
 /** Fixed top reading-progress bar. */
 export default function ProgressBar() {

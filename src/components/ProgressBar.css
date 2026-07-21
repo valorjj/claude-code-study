@@ -1,0 +1,3 @@
+/* Fixed top reading-progress bar. Co-located with ProgressBar.tsx.
+   #progress-bar is set by id (width driven from React state), so it stays global. */
+#progress-bar { position:fixed; top:0; left:0; height:3px; width:0; background:var(--pap-accent); z-index:50; transition:width .05s linear; }

@@ -1,3 +1,5 @@
+import "./Questioning.css";
+
 export default function Questioning() {
   return (
     <section id="questioning" className="doc-section">
