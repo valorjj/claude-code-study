@@ -1,0 +1,70 @@
+[
+  {
+    "key": "CLAUDE.md",
+    "p": "CLAUDE.md"
+  },
+  {
+    "key": "apps/process-governance/CLAUDE.md",
+    "p": "apps/process-governance/CLAUDE.md"
+  },
+  {
+    "key": "docs/architecture/chip-system.md",
+    "p": "docs/architecture/chip-system.md"
+  },
+  {
+    "key": "docs/superpowers/specs/2026-07-08-design-language-overhaul-design.md",
+    "p": "docs/superpowers/specs/2026-07-08-design-language-overhaul-design.md"
+  },
+  {
+    "key": "memory/MEMORY.md",
+    "p": "memory/MEMORY.md"
+  },
+  {
+    "key": ".claude/skills/svelte5-boxwood/",
+    "p": ".claude/skills/svelte5-boxwood/SKILL.md"
+  },
+  {
+    "key": ".claude/hooks/pap-policy-guard.mjs",
+    "p": ".claude/hooks/pap-policy-guard.mjs"
+  },
+  {
+    "key": "docs/architecture/system-overview.md",
+    "p": "docs/architecture/system-overview.md"
+  },
+  {
+    "key": "docs/architecture/bff-sse.md",
+    "p": "docs/architecture/bff-sse.md"
+  },
+  {
+    "key": "docs/architecture/asset-schema.yaml",
+    "p": "docs/architecture/asset-schema.yaml"
+  },
+  {
+    "key": "docs/architecture/runtime-boundary.md",
+    "p": "docs/architecture/runtime-boundary.md"
+  },
+  {
+    "key": "docs/guards.md",
+    "p": "docs/guards.md"
+  },
+  {
+    "key": "docs/STATUS.md",
+    "p": "docs/STATUS.md"
+  },
+  {
+    "key": "src/lib/routes.test.ts",
+    "p": "src/lib/routes.test.ts"
+  },
+  {
+    "key": "src/lib/pap-tokens.test.ts",
+    "p": "src/lib/pap-tokens.test.ts"
+  },
+  {
+    "key": "src/lib/design-guards.test.ts",
+    "p": "src/lib/design-guards.test.ts"
+  },
+  {
+    "key": "src/lib/vendor-boundary.test.ts",
+    "p": "src/lib/vendor-boundary.test.ts"
+  }
+]

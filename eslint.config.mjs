@@ -18,6 +18,9 @@ const eslintConfig = defineConfig([
     "out/**",
     "build/**",
     "next-env.d.ts",
+    // Embedded reference files (data, not app code):
+    "content/**",
+    "scripts/**",
   ]),
 ]);
 

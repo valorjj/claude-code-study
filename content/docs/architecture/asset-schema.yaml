@@ -1,0 +1,1713 @@
+# Structured SSOT for the process-governance asset data model.
+# Prose SSOT: docs/superpowers/specs/2026-07-02-asset-data-model-design.md — keep in sync.
+# DERIVED FROM this file: asset-ddl-workbook.xlsx, asset-schema.json, src/shared/types/generated/db-schema.ts.
+dialect: MariaDB
+codeRegistry:
+  category:
+    code: ASSET
+    name: ASSET GOVERNANCE
+    description: process-governance asset catalog domain codes (mock-up-only; independent of automation's MD/US/... categories)
+  types:
+  - code: ASSETTYP
+    name: Asset Type
+    description: Catalog asset kind
+    values:
+    - code: PROCESS
+      label: Process
+      value: Process
+    - code: TASKBNDL
+      label: TaskBundle
+      value: TaskBundle
+    - code: SOP
+      label: SOP
+      value: SOP
+    - code: WORKINST
+      label: WorkInstruction
+      value: WorkInstruction
+    - code: POLICY
+      label: Policy
+      value: Policy
+    - code: TEMPLATE
+      label: Template
+      value: Template
+    - code: DOCUMENT
+      label: Document
+      value: Document
+  - code: ASSETSTS
+    name: Asset Status
+    description: Version status
+    values:
+    - code: DRAFT
+      label: Draft
+      value: Draft
+    - code: INREVIEW
+      label: InReview
+      value: InReview
+    - code: ACTIVE
+      label: Active
+      value: Active
+    - code: DEPRECATED
+      label: Deprecated
+      value: Deprecated
+    - code: ARCHIVED
+      label: Archived
+      value: Archived
+  - code: ASSETMAT
+    name: Asset Maturity
+    description: Version maturity
+    values:
+    - code: DRAFT
+      label: Draft
+      value: Draft
+    - code: REVIEWED
+      label: Reviewed
+      value: Reviewed
+    - code: CERTIFIED
+      label: Certified
+      value: Certified
+    - code: DEPRECATED
+      label: Deprecated
+      value: Deprecated
+  - code: LIFECYCL
+    name: Lifecycle Stage
+    description: 9-stage governance lifecycle
+    values:
+    - code: PROPOSED
+      label: Proposed
+      value: Proposed
+    - code: REQREVIEW
+      label: RequirementsReview
+      value: RequirementsReview
+    - code: REQAPPRVD
+      label: RequirementsApproved
+      value: RequirementsApproved
+    - code: INDEV
+      label: InDevelopment
+      value: InDevelopment
+    - code: VERIFY
+      label: Verification
+      value: Verification
+    - code: OPAPRREQ
+      label: OperationApprovalRequested
+      value: OperationApprovalRequested
+    - code: OPAPPRVD
+      label: OperationApproved
+      value: OperationApproved
+    - code: INOPERATN
+      label: InOperation
+      value: InOperation
+    - code: RETIRED
+      label: Retired
+      value: Retired
+  - code: APPRDECN
+    name: Approval Decision
+    description: Stage transition decision
+    values:
+    - code: ADVANCE
+      label: advance
+      value: advance
+    - code: RETURN
+      label: return
+      value: return
+    - code: REJECT
+      label: reject
+      value: reject
+  - code: AUTOLVL
+    name: Automation Level
+    description: Manual / Assisted / Automated
+    values:
+    - code: MANUAL
+      label: Manual
+      value: Manual
+    - code: ASSISTED
+      label: Assisted
+      value: Assisted
+    - code: AUTOMATED
+      label: Automated
+      value: Automated
+  - code: ASSETNAT
+    name: Asset Nature
+    description: enterprise / reusable-common
+    values:
+    - code: ENTERPRISE
+      label: enterprise
+      value: enterprise
+    - code: REUSECOMM
+      label: reusable-common
+      value: reusable-common
+  - code: ASSETVIS
+    name: Asset Visibility
+    description: public / org / private
+    values:
+    - code: PUBLIC
+      label: public
+      value: public
+    - code: ORG
+      label: org
+      value: org
+    - code: PRIVATE
+      label: private
+      value: private
+  - code: RECKIND
+    name: Asset Record Kind
+    description: AssetRecord discriminator
+    values:
+    - code: EXECRESULT
+      label: execution_result
+      value: execution_result
+    - code: FAILURELOG
+      label: failure_log
+      value: failure_log
+    - code: PARAMCHG
+      label: parameter_change
+      value: parameter_change
+    - code: ASSIGNCHG
+      label: assignee_change
+      value: assignee_change
+    - code: ROLECHG
+      label: role_change
+      value: role_change
+    - code: PERMCHG
+      label: permission_change
+      value: permission_change
+  - code: LINKTYPE
+    name: Asset Link Type
+    description: relatedAssets relation kind
+    values:
+    - code: PRECEDES
+      label: precedes
+      value: precedes
+    - code: DEPENDS
+      label: depends
+      value: depends
+    - code: SUPERSEDE
+      label: supersedes
+      value: supersedes
+    - code: CONFLICTS
+      label: conflicts
+      value: conflicts
+    - code: DUPLICATE
+      label: duplicates
+      value: duplicates
+    - code: RELATES
+      label: relates
+      value: relates
+    - code: REFERENCE
+      label: references
+      value: references
+  - code: FBTARGET
+    name: Feedback Target Kind
+    description: asset / element
+    values:
+    - code: ASSET
+      label: asset
+      value: asset
+    - code: ELEMENT
+      label: element
+      value: element
+  - code: FBSCOPE
+    name: Feedback Scope
+    description: operating / draft
+    values:
+    - code: OPERATING
+      label: operating
+      value: operating
+    - code: DRAFT
+      label: draft
+      value: draft
+  - code: FBSTATUS
+    name: Feedback Status
+    description: open / resolved
+    values:
+    - code: OPEN
+      label: open
+      value: open
+    - code: RESOLVED
+      label: resolved
+      value: resolved
+  - code: CPSTATUS
+    name: Change Proposal Status
+    description: open / accepted / rejected / applied
+    values:
+    - code: OPEN
+      label: open
+      value: open
+    - code: ACCEPTED
+      label: accepted
+      value: accepted
+    - code: REJECTED
+      label: rejected
+      value: rejected
+    - code: APPLIED
+      label: applied
+      value: applied
+  - code: OPAPRSTS
+    name: Operation Approval Status
+    description: none / requested / approved
+    values:
+    - code: NONE
+      label: none
+      value: none
+    - code: REQUESTED
+      label: requested
+      value: requested
+    - code: APPROVED
+      label: approved
+      value: approved
+  - code: INSTSTAT
+    name: Process Instance Status
+    description: draft / in_approval / done / rejected
+    values:
+    - code: DRAFT
+      label: draft
+      value: draft
+    - code: INAPPROVAL
+      label: in_approval
+      value: in_approval
+    - code: DONE
+      label: done
+      value: done
+    - code: REJECTED
+      label: rejected
+      value: rejected
+  - code: TPLKIND
+    name: Template Kind
+    description: process / task / fragment / object
+    values:
+    - code: PROCESS
+      label: process
+      value: process
+    - code: TASK
+      label: task
+      value: task
+    - code: FRAGMENT
+      label: fragment
+      value: fragment
+    - code: OBJECT
+      label: object
+      value: object
+  - code: SYSCAT
+    name: System Category
+    description: sap / legacy / manual / none
+    values:
+    - code: SAP
+      label: sap
+      value: sap
+    - code: LEGACY
+      label: legacy
+      value: legacy
+    - code: MANUAL
+      label: manual
+      value: manual
+    - code: NONE
+      label: none
+      value: none
+  - code: TPLSCOPE
+    name: Template Scope
+    description: enterprise / public
+    values:
+    - code: ENTERPRISE
+      label: enterprise
+      value: enterprise
+    - code: PUBLIC
+      label: public
+      value: public
+  - code: KPGREFKD
+    name: Knowledge Page Ref Kind
+    description: asset / free
+    values:
+    - code: ASSET
+      label: asset
+      value: asset
+    - code: FREE
+      label: free
+      value: free
+  - code: EXTREFTP
+    name: External Reference Type
+    description: automation-side entity type
+    values:
+    - code: PROCVERS
+      label: process_version
+      value: process_version
+    - code: SVCTASK
+      label: service_task
+      value: service_task
+    - code: CONNECTOR
+      label: connector
+      value: connector
+    - code: FORM
+      label: form
+      value: form
+    - code: CREDREF
+      label: credential_ref
+      value: credential_ref
+    - code: DEPLOY
+      label: deployment
+      value: deployment
+    - code: INSTANCE
+      label: instance
+      value: instance
+    - code: USERTASK
+      label: user_task
+      value: user_task
+  - code: STGACTOR
+    name: Stage Actor Type
+    description: Lifecycle stage participant role
+    values:
+    - code: OWNER
+      label: 담당자
+      value: 담당자
+    - code: INITIATOR
+      label: 발의자
+      value: 발의자
+    - code: REVIEWER
+      label: 검토자
+      value: 검토자
+    - code: APPROVER
+      label: 승인자
+      value: 승인자
+    - code: PERFORMER
+      label: 수행자
+      value: 수행자
+    - code: OBSERVER
+      label: 참조자
+      value: 참조자
+  - code: POSTSTAT
+    name: Community Post Status
+    description: Community board post status (open / resolved)
+    values:
+    - code: OPEN
+      label: open
+      value: open
+    - code: RESOLVED
+      label: resolved
+      value: resolved
+tables:
+- name: tbl_asset_meta
+  comment: One row per asset, any of the 7 catalog kinds (design spec §5.1).
+  columns:
+  - name: id
+    type: BIGINT
+    nullable: false
+    comment: Asset meta surrogate PK
+    default: AUTO_INCREMENT
+    pk: true
+  - name: mgmt_key
+    type: VARCHAR(100)
+    nullable: false
+    comment: Stable cross-system management key
+    index: UQ_ASSET_META_MGMT_KEY
+  - name: asset_type_cd
+    type: VARCHAR(10)
+    nullable: false
+    comment: 'Catalog kind: Process/TaskBundle/SOP/WorkInstruction/Policy/Template/Document'
+    fk: tbl_code(code) [ASSETTYP]
+    index: IDX_ASSET_META_TYPE
+  - name: name
+    type: VARCHAR(500)
+    nullable: false
+    comment: Display name
+    index: IDX_ASSET_META_NAME
+  - name: description
+    type: VARCHAR(2000)
+    nullable: true
+    comment: Free-text description
+  - name: category
+    type: VARCHAR(500)
+    nullable: true
+    comment: Leaf classification category id (L1->L3 path, last segment)
+  - name: category_path_json
+    type: LONGTEXT
+    nullable: true
+    comment: Ordered category path array (root..leaf), JSON
+  - name: class_level
+    type: VARCHAR(100)
+    nullable: true
+    comment: 'Free-form classification axis: level'
+  - name: line_of_business
+    type: VARCHAR(255)
+    nullable: true
+    comment: 'Free-form classification axis: line of business'
+  - name: e2e_process
+    type: VARCHAR(255)
+    nullable: true
+    comment: 'Free-form classification axis: end-to-end process'
+  - name: solution_area
+    type: VARCHAR(255)
+    nullable: true
+    comment: 'Free-form classification axis: solution area'
+  - name: module
+    type: VARCHAR(255)
+    nullable: true
+    comment: 'Free-form classification axis: module'
+  - name: business_objects_json
+    type: LONGTEXT
+    nullable: true
+    comment: JSON array of business object names
+  - name: owner_id
+    type: BIGINT
+    nullable: true
+    comment: Asset owner (person)
+    fk: tbl_tenant_user(id) ON DELETE SET NULL
+    index: IDX_ASSET_META_OWNER
+  - name: owner_org
+    type: VARCHAR(255)
+    nullable: true
+    comment: Owning organization name
+  - name: steward_name
+    type: VARCHAR(255)
+    nullable: false
+    comment: Steward display name
+  - name: steward_initials
+    type: VARCHAR(10)
+    nullable: false
+    comment: Steward initials
+  - name: tags_json
+    type: LONGTEXT
+    nullable: true
+    comment: JSON array of free-text tags
+  - name: is_all_version_deactivated_yn
+    type: CHAR(1)
+    nullable: false
+    comment: Reversible deactivation across all versions (distinct from retirement, see tbl_asset_retirement)
+    default: '''N'''
+  - name: external_ref_type_cd
+    type: VARCHAR(10)
+    nullable: true
+    comment: automation-side reference type, when linked
+    fk: tbl_code(code) [EXTREFTP]
+  - name: external_ref_id
+    type: VARCHAR(255)
+    nullable: true
+    comment: automation-side entity id
+  - name: external_ref_url
+    type: VARCHAR(1000)
+    nullable: true
+    comment: Deep link to the automation-side entity
+  - name: external_ref_label
+    type: VARCHAR(255)
+    nullable: true
+    comment: Display label for the external reference
+  - name: external_ref_note
+    type: VARCHAR(2000)
+    nullable: true
+    comment: Free-text note on the external reference
+  - name: custom_attributes_json
+    type: LONGTEXT
+    nullable: true
+    comment: RuleSet-driven custom fields, JSON map
+  - name: linked_rule_sets_json
+    type: LONGTEXT
+    nullable: true
+    comment: JSON array of linked RuleSet ids
+  - name: approval_rule_sets_json
+    type: LONGTEXT
+    nullable: true
+    comment: Per-lifecycle-stage approval RuleSet ids, JSON map
+  - name: approval_checklist_state_json
+    type: LONGTEXT
+    nullable: true
+    comment: Approval checklist completion state, JSON map
+  - name: parent_process_id
+    type: BIGINT
+    nullable: true
+    comment: Parent Process (hierarchy; Process type only, L0 = NULL)
+    fk: tbl_asset_meta(id) ON DELETE SET NULL
+    index: IDX_ASSET_META_PARENT
+  - name: created_at
+    type: TIMESTAMP
+    nullable: false
+    comment: Row creation time
+    default: CURRENT_TIMESTAMP
+  - name: created_by
+    type: BIGINT
+    nullable: true
+    comment: Creating user
+    fk: tbl_tenant_user(id) ON DELETE SET NULL
+  - name: updated_at
+    type: TIMESTAMP
+    nullable: false
+    comment: Row last-update time
+    default: CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+  - name: updated_by
+    type: BIGINT
+    nullable: true
+    comment: Last-updating user
+    fk: tbl_tenant_user(id) ON DELETE SET NULL
+  indexes:
+  - UNIQUE uq_asset_meta_mgmt_key (mgmt_key)
+  - INDEX idx_asset_meta_type (asset_type_cd)
+  - INDEX idx_asset_meta_name (name)
+  - INDEX idx_asset_meta_owner (owner_id)
+  - INDEX idx_asset_meta_parent (parent_process_id)
+  - INDEX idx_asset_meta_deactivated (is_all_version_deactivated_yn)
+  notes: null
+  flag: null
+- name: tbl_asset_version
+  comment: One row per version, any asset kind (design spec §5.1).
+  columns:
+  - name: id
+    type: BIGINT
+    nullable: false
+    comment: Asset version surrogate PK
+    default: AUTO_INCREMENT
+    pk: true
+  - name: meta_id
+    type: BIGINT
+    nullable: false
+    comment: Owning asset
+    fk: tbl_asset_meta(id) ON DELETE CASCADE
+    index: IDX_ASSET_VERSION_META
+  - name: version_number
+    type: INT
+    nullable: false
+    comment: Sequential version number within the asset
+    default: '1'
+  - name: version_name
+    type: VARCHAR(500)
+    nullable: true
+    comment: Human-friendly version name
+  - name: version_description
+    type: VARCHAR(2000)
+    nullable: true
+    comment: Short version-level description
+  - name: description
+    type: VARCHAR(2000)
+    nullable: true
+    comment: Rich body description of this version's content
+  - name: status_cd
+    type: VARCHAR(10)
+    nullable: false
+    comment: Draft/InReview/Active/Deprecated/Archived
+    fk: tbl_code(code) [ASSETSTS]
+    index: IDX_ASSET_VERSION_STATUS
+  - name: maturity_cd
+    type: VARCHAR(10)
+    nullable: false
+    comment: Draft/Reviewed/Certified/Deprecated
+    fk: tbl_code(code) [ASSETMAT]
+  - name: lifecycle_stage_cd
+    type: VARCHAR(10)
+    nullable: true
+    comment: Current 9-stage governance lifecycle stage
+    fk: tbl_code(code) [LIFECYCL]
+    index: IDX_ASSET_VERSION_STAGE
+  - name: active_yn
+    type: CHAR(1)
+    nullable: false
+    comment: Exactly one version per asset should be Y
+    default: '''Y'''
+    index: IDX_ASSET_VERSION_ACTIVE
+  - name: published_yn
+    type: CHAR(1)
+    nullable: false
+    comment: Published flag
+    default: '''N'''
+    index: IDX_ASSET_VERSION_PUB
+  - name: deleted_yn
+    type: CHAR(1)
+    nullable: false
+    comment: Soft-delete flag
+    default: '''N'''
+    index: IDX_ASSET_VERSION_DEL
+  - name: deleted_at
+    type: TIMESTAMP
+    nullable: true
+    comment: Soft-delete time
+  - name: restored_from_version_id
+    type: BIGINT
+    nullable: true
+    comment: Append-only restore provenance — source version this was restored from
+    fk: tbl_asset_version(id) ON DELETE SET NULL
+  - name: author_id
+    type: BIGINT
+    nullable: true
+    comment: Version author
+    fk: tbl_tenant_user(id) ON DELETE SET NULL
+  - name: pending_approvers_json
+    type: LONGTEXT
+    nullable: true
+    comment: JSON array of pending-approver person ids
+  - name: created_at
+    type: TIMESTAMP
+    nullable: false
+    comment: Row creation time
+    default: CURRENT_TIMESTAMP
+  - name: created_by
+    type: BIGINT
+    nullable: true
+    comment: Creating user
+    fk: tbl_tenant_user(id) ON DELETE SET NULL
+  - name: updated_at
+    type: TIMESTAMP
+    nullable: false
+    comment: Row last-update time
+    default: CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+  - name: updated_by
+    type: BIGINT
+    nullable: true
+    comment: Last-updating user
+    fk: tbl_tenant_user(id) ON DELETE SET NULL
+  indexes:
+  - UNIQUE uq_asset_version_meta_num_name (meta_id, version_number, version_name)
+  - INDEX idx_asset_version_status (status_cd)
+  - INDEX idx_asset_version_stage (lifecycle_stage_cd)
+  - INDEX idx_asset_version_active (active_yn)
+  - INDEX idx_asset_version_pub (published_yn)
+  - INDEX idx_asset_version_del (deleted_yn)
+  notes: null
+  flag: null
+- name: tbl_process_asset_detail
+  comment: Process-specific version content (design spec §5.1). 1:1 with tbl_asset_version where the owning asset's asset_type_cd
+    = PROCESS.
+  columns:
+  - name: version_id
+    type: BIGINT
+    nullable: false
+    comment: 1:1 owning version
+    pk: true
+    fk: tbl_asset_version(id) ON DELETE CASCADE
+  - name: bpmn_xml
+    type: LONGTEXT
+    nullable: true
+    comment: BPMN 2.0 XML, isExecutable=false (authoring-only)
+  - name: process_yaml
+    type: LONGTEXT
+    nullable: true
+    comment: "Serialized ProcessIntent as YAML text (shipped asset-yaml-codec). Logical process-graph SSOT: parameters, taskParameters, userTaskForms, taskOwners, taskRaci, taskProperties, flowConditions, scripts."
+  - name: business_json
+    type: LONGTEXT
+    nullable: true
+    comment: "Non-intent business data as JSON: {userTaskForms, taskRaci, taskDueDates, taskProperties} — the per-element data outside ProcessIntent that process_yaml does not carry."
+  - name: trigger_desc
+    type: VARCHAR(500)
+    nullable: true
+    comment: How/when this process starts (renamed from `trigger` — SQL reserved word)
+  - name: sla
+    type: VARCHAR(255)
+    nullable: true
+    comment: Service-level agreement text
+  - name: purpose
+    type: VARCHAR(2000)
+    nullable: true
+    comment: Why this process exists
+  - name: primary_owner_id
+    type: BIGINT
+    nullable: true
+    comment: Primary accountable owner
+    fk: tbl_tenant_user(id) ON DELETE SET NULL
+  - name: backup_owner_id
+    type: BIGINT
+    nullable: true
+    comment: Backup owner
+    fk: tbl_tenant_user(id) ON DELETE SET NULL
+  - name: automation_level_cd
+    type: VARCHAR(10)
+    nullable: true
+    comment: Manual/Assisted/Automated rollup
+    fk: tbl_code(code) [AUTOLVL]
+  - name: asset_nature_cd
+    type: VARCHAR(10)
+    nullable: true
+    comment: enterprise / reusable-common
+    fk: tbl_code(code) [ASSETNAT]
+  - name: bpmn_enabled_yn
+    type: CHAR(1)
+    nullable: false
+    comment: Whether the BPMN canvas is enabled for this process
+    default: '''Y'''
+  - name: automation_enabled_yn
+    type: CHAR(1)
+    nullable: false
+    comment: Whether automation compilation is enabled (concept-only today)
+    default: '''N'''
+  - name: visibility_cd
+    type: VARCHAR(10)
+    nullable: true
+    comment: public / org / private
+    fk: tbl_code(code) [ASSETVIS]
+  - name: system_names_json
+    type: LONGTEXT
+    nullable: true
+    comment: Catalog-only system name references, JSON array (never live-connected)
+  - name: program_names_json
+    type: LONGTEXT
+    nullable: true
+    comment: Catalog-only program name references, JSON array
+  - name: kpis_json
+    type: LONGTEXT
+    nullable: true
+    comment: JSON array of {name, target, current, status}
+  indexes: []
+  notes: null
+  flag: null
+- name: tbl_task_bundle_asset_detail
+  comment: TaskBundle-specific version content (design spec §5.1) — reusable Call-Activity target, same CallableModelAsset
+    shape as Process minus process-only fields.
+  columns:
+  - name: version_id
+    type: BIGINT
+    nullable: false
+    comment: 1:1 owning version
+    pk: true
+    fk: tbl_asset_version(id) ON DELETE CASCADE
+  - name: bpmn_xml
+    type: LONGTEXT
+    nullable: true
+    comment: BPMN 2.0 XML, isExecutable=false (authoring-only)
+  - name: process_yaml
+    type: LONGTEXT
+    nullable: true
+    comment: "Serialized ProcessIntent as YAML text (shipped asset-yaml-codec). Logical process-graph SSOT: parameters, taskParameters, userTaskForms, taskOwners, taskRaci, taskProperties, flowConditions, scripts."
+  - name: business_json
+    type: LONGTEXT
+    nullable: true
+    comment: "Non-intent business data as JSON: {userTaskForms, taskRaci, taskDueDates, taskProperties} — the per-element data outside ProcessIntent that process_yaml does not carry."
+  indexes: []
+  notes: null
+  flag: null
+- name: tbl_sop_asset_detail
+  comment: SOP-specific version content (design spec §5.1).
+  columns:
+  - name: version_id
+    type: BIGINT
+    nullable: false
+    comment: 1:1 owning version
+    pk: true
+    fk: tbl_asset_version(id) ON DELETE CASCADE
+  - name: linked_process_id
+    type: BIGINT
+    nullable: true
+    comment: Process this SOP documents (optional)
+    fk: tbl_asset_meta(id) ON DELETE SET NULL
+    index: IDX_SOP_DETAIL_PROCESS
+  - name: linked_activity_element_id
+    type: VARCHAR(255)
+    nullable: true
+    comment: BPMN element id on the linked process this SOP documents
+  - name: training_required_yn
+    type: CHAR(1)
+    nullable: false
+    comment: Whether training is required before performing this SOP
+    default: '''N'''
+  - name: compliance_refs_json
+    type: LONGTEXT
+    nullable: true
+    comment: JSON array of compliance reference strings
+  - name: tools_json
+    type: LONGTEXT
+    nullable: true
+    comment: JSON array of tool names used
+  - name: roles_involved_json
+    type: LONGTEXT
+    nullable: true
+    comment: JSON array of role names involved
+  - name: steps_json
+    type: LONGTEXT
+    nullable: true
+    comment: 'Ordered SopStep[] array: {title, desc, role?, tool?, duration?, automationCandidate?, linkedBpmnElementId?}'
+  - name: sop_category
+    type: VARCHAR(255)
+    nullable: true
+    comment: Free-form SOP category (not code-tabled — not in the current enum inventory)
+  indexes: []
+  notes: null
+  flag: null
+- name: tbl_policy_asset_detail
+  comment: Policy-specific version content (design spec §5.1) — Policy stays thin.
+  columns:
+  - name: version_id
+    type: BIGINT
+    nullable: false
+    comment: 1:1 owning version
+    pk: true
+    fk: tbl_asset_version(id) ON DELETE CASCADE
+  - name: compliance_refs_json
+    type: LONGTEXT
+    nullable: true
+    comment: JSON array of compliance reference strings
+  indexes: []
+  notes: null
+  flag: null
+- name: tbl_document_asset_detail
+  comment: Document-specific version content (design spec §5.1 / Decision 3 — Document promoted to a 7th AssetType). Each
+    new version = a re-upload.
+  columns:
+  - name: version_id
+    type: BIGINT
+    nullable: false
+    comment: 1:1 owning version
+    pk: true
+    fk: tbl_asset_version(id) ON DELETE CASCADE
+  - name: file_name
+    type: VARCHAR(500)
+    nullable: false
+    comment: Original uploaded file name
+  - name: mime_type
+    type: VARCHAR(255)
+    nullable: false
+    comment: MIME type (ppt/pdf/hwp/xlsx/...)
+  - name: size_bytes
+    type: BIGINT
+    nullable: false
+    comment: File size in bytes
+  - name: storage_ref
+    type: VARCHAR(1000)
+    nullable: false
+    comment: Path/key in blob storage
+  - name: checksum
+    type: VARCHAR(128)
+    nullable: true
+    comment: Content hash (e.g. sha256 hex) for integrity checks
+  indexes: []
+  notes: null
+  flag: null
+- name: tbl_asset_feedback
+  comment: Comments/discussion, dedicated table per design spec Decision 2 (hybrid).
+  columns:
+  - name: id
+    type: BIGINT
+    nullable: false
+    comment: Feedback surrogate PK
+    default: AUTO_INCREMENT
+    pk: true
+  - name: display_key
+    type: VARCHAR(20)
+    nullable: false
+    comment: Human-readable id, e.g. FB-0001
+    index: UQ_ASSET_FEEDBACK_KEY
+  - name: target_kind_cd
+    type: VARCHAR(10)
+    nullable: false
+    comment: asset / element
+    fk: tbl_code(code) [FBTARGET]
+  - name: target_asset_id
+    type: BIGINT
+    nullable: false
+    comment: Asset this feedback is on
+    fk: tbl_asset_meta(id) ON DELETE CASCADE
+    index: IDX_FEEDBACK_ASSET
+  - name: target_element_id
+    type: VARCHAR(255)
+    nullable: true
+    comment: BPMN element id, when target_kind_cd = ELEMENT
+  - name: target_element_name
+    type: VARCHAR(500)
+    nullable: true
+    comment: Display name of the targeted element
+  - name: scope_cd
+    type: VARCHAR(10)
+    nullable: false
+    comment: operating / draft
+    fk: tbl_code(code) [FBSCOPE]
+  - name: version_ref_id
+    type: BIGINT
+    nullable: true
+    comment: Version this feedback references
+    fk: tbl_asset_version(id) ON DELETE SET NULL
+  - name: author_id
+    type: BIGINT
+    nullable: false
+    comment: Feedback author
+    fk: tbl_tenant_user(id)
+  - name: body
+    type: VARCHAR(4000)
+    nullable: false
+    comment: Feedback text
+  - name: status_cd
+    type: VARCHAR(10)
+    nullable: false
+    comment: open / resolved
+    default: '''OPEN'''
+    fk: tbl_code(code) [FBSTATUS]
+  - name: resolved_by
+    type: BIGINT
+    nullable: true
+    comment: Who resolved this feedback
+    fk: tbl_tenant_user(id)
+  - name: resolved_at
+    type: TIMESTAMP
+    nullable: true
+    comment: When it was resolved
+  - name: created_at
+    type: TIMESTAMP
+    nullable: false
+    comment: Row creation time
+    default: CURRENT_TIMESTAMP
+  indexes:
+  - UNIQUE uq_asset_feedback_key (display_key)
+  notes: null
+  flag: null
+- name: tbl_asset_feedback_reply
+  comment: Replies to a feedback thread.
+  columns:
+  - name: id
+    type: BIGINT
+    nullable: false
+    comment: Reply surrogate PK
+    default: AUTO_INCREMENT
+    pk: true
+  - name: feedback_id
+    type: BIGINT
+    nullable: false
+    comment: Parent feedback thread
+    fk: tbl_asset_feedback(id) ON DELETE CASCADE
+    index: IDX_FB_REPLY_FEEDBACK
+  - name: author_id
+    type: BIGINT
+    nullable: false
+    comment: Reply author
+    fk: tbl_tenant_user(id)
+  - name: body
+    type: VARCHAR(4000)
+    nullable: false
+    comment: Reply text
+  - name: created_at
+    type: TIMESTAMP
+    nullable: false
+    comment: Row creation time
+    default: CURRENT_TIMESTAMP
+  indexes: []
+  notes: null
+  flag: null
+- name: tbl_change_proposal
+  comment: Structured propose->decide flow, dedicated table per design spec Decision 2.
+  columns:
+  - name: id
+    type: BIGINT
+    nullable: false
+    comment: Change proposal surrogate PK
+    default: AUTO_INCREMENT
+    pk: true
+  - name: display_key
+    type: VARCHAR(20)
+    nullable: false
+    comment: Human-readable id, e.g. CP-0001
+    index: UQ_CHANGE_PROPOSAL_KEY
+  - name: asset_id
+    type: BIGINT
+    nullable: false
+    comment: Asset this proposal targets
+    fk: tbl_asset_meta(id) ON DELETE CASCADE
+    index: IDX_CHG_PROPOSAL_ASSET
+  - name: target_version_id
+    type: BIGINT
+    nullable: true
+    comment: Version this proposal is against, if any
+    fk: tbl_asset_version(id) ON DELETE SET NULL
+  - name: title
+    type: VARCHAR(500)
+    nullable: false
+    comment: Proposal title
+  - name: reason
+    type: VARCHAR(4000)
+    nullable: false
+    comment: Why this change is proposed
+  - name: expected_effect
+    type: VARCHAR(4000)
+    nullable: false
+    comment: Expected effect of the change
+  - name: impact_scope
+    type: VARCHAR(2000)
+    nullable: false
+    comment: What else this change affects
+  - name: kpi_refs_json
+    type: LONGTEXT
+    nullable: false
+    comment: JSON array of referenced KPI names
+  - name: status_cd
+    type: VARCHAR(10)
+    nullable: false
+    comment: open / accepted / rejected / applied
+    default: '''OPEN'''
+    fk: tbl_code(code) [CPSTATUS]
+    index: IDX_CHG_PROPOSAL_STATUS
+  - name: proposer_id
+    type: BIGINT
+    nullable: false
+    comment: Who proposed the change
+    fk: tbl_tenant_user(id)
+  - name: created_at
+    type: TIMESTAMP
+    nullable: false
+    comment: Row creation time
+    default: CURRENT_TIMESTAMP
+  - name: decided_by
+    type: BIGINT
+    nullable: true
+    comment: Who accepted/rejected the proposal
+    fk: tbl_tenant_user(id)
+  - name: decided_at
+    type: TIMESTAMP
+    nullable: true
+    comment: When it was decided
+  - name: resulting_version_id
+    type: BIGINT
+    nullable: true
+    comment: Version created as a result of applying this proposal (manual link)
+    fk: tbl_asset_version(id) ON DELETE SET NULL
+  indexes:
+  - UNIQUE uq_change_proposal_key (display_key)
+  notes: null
+  flag: null
+- name: tbl_approval_entry
+  comment: Lifecycle stage transitions — append-only (design spec §5.2 / audit-and-restore.md).
+  columns:
+  - name: id
+    type: BIGINT
+    nullable: false
+    comment: Approval entry surrogate PK
+    default: AUTO_INCREMENT
+    pk: true
+  - name: version_id
+    type: BIGINT
+    nullable: false
+    comment: Version this transition applies to
+    fk: tbl_asset_version(id) ON DELETE CASCADE
+    index: IDX_APPR_ENTRY_VERSION
+  - name: stage_cd
+    type: VARCHAR(10)
+    nullable: false
+    comment: Stage the decision was made at
+    fk: tbl_code(code) [LIFECYCL]
+  - name: decision_cd
+    type: VARCHAR(10)
+    nullable: false
+    comment: advance / return / reject
+    fk: tbl_code(code) [APPRDECN]
+  - name: actor_id
+    type: BIGINT
+    nullable: false
+    comment: Who made the decision
+    fk: tbl_tenant_user(id)
+  - name: occurred_at
+    type: TIMESTAMP
+    nullable: false
+    comment: When the decision was made
+    default: CURRENT_TIMESTAMP
+  - name: remark
+    type: VARCHAR(2000)
+    nullable: true
+    comment: Free-text comment on the decision (named `remark`, not `comment` — avoids ambiguity with COMMENT clause)
+  - name: to_stage_cd
+    type: VARCHAR(10)
+    nullable: true
+    comment: Destination stage, for advance/return decisions
+    fk: tbl_code(code) [LIFECYCL]
+  indexes: []
+  notes: 'Append-only: created_at/created_by-only pattern doesn''t apply since occurred_at IS the event time and actor_id
+    IS the actor — no separate audit block needed.'
+  flag: null
+- name: tbl_approval_stage_info
+  comment: Per-version-per-stage tracking (participants/files/comments/dates).
+  columns:
+  - name: id
+    type: BIGINT
+    nullable: false
+    comment: Stage info surrogate PK
+    default: AUTO_INCREMENT
+    pk: true
+  - name: version_id
+    type: BIGINT
+    nullable: false
+    comment: Version this stage tracking belongs to
+    fk: tbl_asset_version(id) ON DELETE CASCADE
+    index: IDX_STAGE_INFO_VERSION
+  - name: stage_cd
+    type: VARCHAR(10)
+    nullable: false
+    comment: Which lifecycle stage
+    fk: tbl_code(code) [LIFECYCL]
+  - name: start_date
+    type: TIMESTAMP
+    nullable: true
+    comment: Auto-recorded stage start
+  - name: end_date
+    type: TIMESTAMP
+    nullable: true
+    comment: Auto-recorded stage end
+  - name: due_date
+    type: TIMESTAMP
+    nullable: true
+    comment: User-edited due date for this stage
+  indexes:
+  - UNIQUE uq_stage_info_version_stage (version_id, stage_cd)
+  notes: null
+  flag: null
+- name: tbl_approval_stage_participant
+  comment: Children of tbl_approval_stage_info — who is involved in a stage.
+  columns:
+  - name: id
+    type: BIGINT
+    nullable: false
+    comment: Stage participant surrogate PK
+    default: AUTO_INCREMENT
+    pk: true
+  - name: stage_info_id
+    type: BIGINT
+    nullable: false
+    comment: Parent stage info row
+    fk: tbl_approval_stage_info(id) ON DELETE CASCADE
+    index: IDX_STAGE_PARTICIPANT_INFO
+  - name: person_id
+    type: BIGINT
+    nullable: false
+    comment: Participating person
+    fk: tbl_tenant_user(id)
+  - name: actor_type_cd
+    type: VARCHAR(10)
+    nullable: false
+    comment: Role of this participant in the stage (owner/initiator/reviewer/approver/performer/observer)
+    fk: tbl_code(code) [STGACTOR]
+  indexes: []
+  notes: null
+  flag: null
+- name: tbl_approval_stage_file
+  comment: Children of tbl_approval_stage_info — files attached during a stage.
+  columns:
+  - name: id
+    type: BIGINT
+    nullable: false
+    comment: Stage file surrogate PK
+    default: AUTO_INCREMENT
+    pk: true
+  - name: stage_info_id
+    type: BIGINT
+    nullable: false
+    comment: Parent stage info row
+    fk: tbl_approval_stage_info(id) ON DELETE CASCADE
+    index: IDX_STAGE_FILE_INFO
+  - name: name
+    type: VARCHAR(500)
+    nullable: false
+    comment: Uploaded file name
+  - name: uploaded_by
+    type: BIGINT
+    nullable: false
+    comment: Who uploaded the file
+    fk: tbl_tenant_user(id)
+  - name: uploaded_at
+    type: TIMESTAMP
+    nullable: false
+    comment: When it was uploaded
+    default: CURRENT_TIMESTAMP
+  indexes: []
+  notes: null
+  flag: null
+- name: tbl_approval_stage_comment
+  comment: Children of tbl_approval_stage_info — comments made during a stage.
+  columns:
+  - name: id
+    type: BIGINT
+    nullable: false
+    comment: Stage comment surrogate PK
+    default: AUTO_INCREMENT
+    pk: true
+  - name: stage_info_id
+    type: BIGINT
+    nullable: false
+    comment: Parent stage info row
+    fk: tbl_approval_stage_info(id) ON DELETE CASCADE
+    index: IDX_STAGE_COMMENT_INFO
+  - name: author_id
+    type: BIGINT
+    nullable: false
+    comment: Comment author
+    fk: tbl_tenant_user(id)
+  - name: body
+    type: VARCHAR(2000)
+    nullable: false
+    comment: Comment text
+  - name: occurred_at
+    type: TIMESTAMP
+    nullable: false
+    comment: When the comment was made
+    default: CURRENT_TIMESTAMP
+  indexes: []
+  notes: null
+  flag: null
+- name: tbl_operation_approval
+  comment: InOperation-stage approval status — 1:1 with a version.
+  columns:
+  - name: version_id
+    type: BIGINT
+    nullable: false
+    comment: 1:1 owning version
+    pk: true
+    fk: tbl_asset_version(id) ON DELETE CASCADE
+  - name: status_cd
+    type: VARCHAR(10)
+    nullable: false
+    comment: none / requested / approved
+    default: '''NONE'''
+    fk: tbl_code(code) [OPAPRSTS]
+  - name: requested_by
+    type: BIGINT
+    nullable: true
+    comment: Who requested operation approval
+    fk: tbl_tenant_user(id)
+  - name: requested_at
+    type: TIMESTAMP
+    nullable: true
+    comment: When it was requested
+  indexes: []
+  notes: null
+  flag: null
+- name: tbl_asset_retirement
+  comment: Terminal retirement — 1:1 with an asset. Distinct from is_all_version_deactivated_yn (reversible) on tbl_asset_meta.
+  columns:
+  - name: asset_meta_id
+    type: BIGINT
+    nullable: false
+    comment: 1:1 retired asset
+    pk: true
+    fk: tbl_asset_meta(id) ON DELETE CASCADE
+  - name: reason
+    type: VARCHAR(2000)
+    nullable: false
+    comment: Retirement reason
+  - name: approver_id
+    type: BIGINT
+    nullable: false
+    comment: Who approved the retirement
+    fk: tbl_tenant_user(id)
+  - name: retired_at
+    type: TIMESTAMP
+    nullable: false
+    comment: When it was retired
+    default: CURRENT_TIMESTAMP
+  - name: replacement_asset_id
+    type: BIGINT
+    nullable: true
+    comment: Asset that replaces this one, if any
+    fk: tbl_asset_meta(id) ON DELETE SET NULL
+  indexes: []
+  notes: null
+  flag: null
+- name: tbl_asset_record
+  comment: Generic audit/telemetry tier (design spec Decision 1 & 2) — execution results, failure logs, parameter/assignee
+    changes. Never versioned, never catalog-listed.
+  columns:
+  - name: id
+    type: BIGINT
+    nullable: false
+    comment: Asset record surrogate PK
+    default: AUTO_INCREMENT
+    pk: true
+  - name: asset_id
+    type: BIGINT
+    nullable: false
+    comment: Asset this record belongs to
+    fk: tbl_asset_meta(id) ON DELETE CASCADE
+    index: IDX_ASSET_RECORD_ASSET
+  - name: version_id
+    type: BIGINT
+    nullable: true
+    comment: Version this record relates to, if applicable
+    fk: tbl_asset_version(id) ON DELETE SET NULL
+  - name: record_kind_cd
+    type: VARCHAR(10)
+    nullable: false
+    comment: execution_result / failure_log / parameter_change / assignee_change / role_change / permission_change
+    fk: tbl_code(code) [RECKIND]
+    index: IDX_ASSET_RECORD_KIND
+  - name: actor_id
+    type: BIGINT
+    nullable: true
+    comment: Acting person, if any (nullable — execution results may be system-actored)
+    fk: tbl_tenant_user(id) ON DELETE SET NULL
+  - name: occurred_at
+    type: TIMESTAMP
+    nullable: false
+    comment: When the recorded event happened
+    default: CURRENT_TIMESTAMP
+  - name: title
+    type: VARCHAR(500)
+    nullable: false
+    comment: Short summary of the record
+  - name: detail
+    type: VARCHAR(4000)
+    nullable: true
+    comment: Longer free-text detail
+  - name: payload_json
+    type: LONGTEXT
+    nullable: true
+    comment: Structured before/after or telemetry payload, JSON
+  - name: created_at
+    type: TIMESTAMP
+    nullable: false
+    comment: Row creation time
+    default: CURRENT_TIMESTAMP
+  indexes:
+  - INDEX idx_asset_record_asset_occurred (asset_id, occurred_at)
+  - INDEX idx_asset_record_kind (record_kind_cd)
+  notes: null
+  flag: null
+- name: tbl_asset_link
+  comment: Cross-asset relationship graph (design spec §5.4 — real table, not JSON, since graph traversal is a first-class
+    feature).
+  columns:
+  - name: id
+    type: BIGINT
+    nullable: false
+    comment: Asset link surrogate PK
+    default: AUTO_INCREMENT
+    pk: true
+  - name: source_asset_id
+    type: BIGINT
+    nullable: false
+    comment: Source asset of the relation
+    fk: tbl_asset_meta(id) ON DELETE CASCADE
+    index: IDX_ASSET_LINK_SOURCE
+  - name: target_asset_id
+    type: BIGINT
+    nullable: false
+    comment: Target asset of the relation
+    fk: tbl_asset_meta(id) ON DELETE CASCADE
+    index: IDX_ASSET_LINK_TARGET
+  - name: relation_type_cd
+    type: VARCHAR(10)
+    nullable: false
+    comment: precedes/depends/supersedes/conflicts/duplicates/relates/references
+    fk: tbl_code(code) [LINKTYPE]
+  - name: label
+    type: VARCHAR(255)
+    nullable: true
+    comment: Optional display label for the link
+  - name: note
+    type: VARCHAR(2000)
+    nullable: true
+    comment: Optional free-text note
+  - name: created_at
+    type: TIMESTAMP
+    nullable: false
+    comment: Row creation time
+    default: CURRENT_TIMESTAMP
+  - name: created_by
+    type: BIGINT
+    nullable: true
+    comment: Creating user
+    fk: tbl_tenant_user(id) ON DELETE SET NULL
+  indexes:
+  - UNIQUE uq_asset_link_src_tgt_type (source_asset_id, target_asset_id, relation_type_cd)
+  notes: null
+  flag: null
+- name: tbl_process_instance
+  comment: Mock execution instance (blueprint tab 14 Group G — design spec §5.5, lower priority).
+  columns:
+  - name: id
+    type: BIGINT
+    nullable: false
+    comment: Process instance surrogate PK
+    default: AUTO_INCREMENT
+    pk: true
+  - name: display_key
+    type: VARCHAR(20)
+    nullable: false
+    comment: Human-readable id, e.g. INST-0001
+    index: UQ_PROCESS_INSTANCE_KEY
+  - name: process_asset_id
+    type: BIGINT
+    nullable: false
+    comment: Process asset this instance is a run of
+    fk: tbl_asset_meta(id) ON DELETE CASCADE
+    index: IDX_PROC_INSTANCE_ASSET
+  - name: process_name
+    type: VARCHAR(500)
+    nullable: false
+    comment: Denormalized snapshot of the process name at instance creation
+  - name: status_cd
+    type: VARCHAR(10)
+    nullable: false
+    comment: draft / in_approval / done / rejected
+    fk: tbl_code(code) [INSTSTAT]
+  - name: assignee_id
+    type: BIGINT
+    nullable: true
+    comment: Currently assigned person
+    fk: tbl_tenant_user(id) ON DELETE SET NULL
+  - name: department
+    type: VARCHAR(255)
+    nullable: true
+    comment: Org rollup for reporting
+  - name: started_at
+    type: TIMESTAMP
+    nullable: false
+    comment: Instance start time
+    default: CURRENT_TIMESTAMP
+  - name: due_date
+    type: TIMESTAMP
+    nullable: true
+    comment: Due date
+  - name: updated_at
+    type: TIMESTAMP
+    nullable: false
+    comment: Row last-update time
+    default: CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+  indexes:
+  - UNIQUE uq_process_instance_key (display_key)
+  notes: null
+  flag: null
+- name: tbl_knowledge_page
+  comment: Community wiki page (blueprint tab 14 Group G — design spec §5.5).
+  columns:
+  - name: id
+    type: BIGINT
+    nullable: false
+    comment: Knowledge page surrogate PK
+    default: AUTO_INCREMENT
+    pk: true
+  - name: display_key
+    type: VARCHAR(20)
+    nullable: false
+    comment: Human-readable id, e.g. KP-0001
+    index: UQ_KNOWLEDGE_PAGE_KEY
+  - name: ref_kind_cd
+    type: VARCHAR(10)
+    nullable: false
+    comment: asset / free
+    fk: tbl_code(code) [KPGREFKD]
+  - name: ref_asset_id
+    type: BIGINT
+    nullable: true
+    comment: Asset this page is scoped to, when ref_kind_cd = ASSET
+    fk: tbl_asset_meta(id) ON DELETE CASCADE
+    index: IDX_KP_REF_ASSET
+  - name: parent_id
+    type: BIGINT
+    nullable: true
+    comment: Free-form nesting parent
+    fk: tbl_knowledge_page(id) ON DELETE SET NULL
+    index: IDX_KP_PARENT
+  - name: title
+    type: VARCHAR(500)
+    nullable: false
+    comment: Page title
+  - name: body_markdown
+    type: LONGTEXT
+    nullable: false
+    comment: Page body, Markdown
+  - name: author_id
+    type: BIGINT
+    nullable: false
+    comment: Original author
+    fk: tbl_tenant_user(id)
+  - name: last_edited_by
+    type: BIGINT
+    nullable: false
+    comment: Most recent editor
+    fk: tbl_tenant_user(id)
+  - name: created_at
+    type: TIMESTAMP
+    nullable: false
+    comment: Row creation time
+    default: CURRENT_TIMESTAMP
+  - name: last_edited_at
+    type: TIMESTAMP
+    nullable: false
+    comment: Most recent edit time
+    default: CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+  indexes:
+  - UNIQUE uq_knowledge_page_key (display_key)
+  notes: null
+  flag: null
+- name: tbl_template
+  comment: 'Save-as-template snapshot entity (blueprint tab 14 Group G). FLAGGED in design spec §6: distinct from the thin
+    AssetType=''Template'' catalog kind — deliberately kept OUTSIDE the tbl_asset_meta/version/lifecycle machinery pending
+    senior-dev sign-off.'
+  columns:
+  - name: id
+    type: BIGINT
+    nullable: false
+    comment: Template surrogate PK
+    default: AUTO_INCREMENT
+    pk: true
+  - name: display_key
+    type: VARCHAR(20)
+    nullable: false
+    comment: Human-readable id, e.g. TPL-0001
+    index: UQ_TEMPLATE_KEY
+  - name: name
+    type: VARCHAR(500)
+    nullable: false
+    comment: Template name
+  - name: description
+    type: VARCHAR(2000)
+    nullable: true
+    comment: Template description
+  - name: template_kind_cd
+    type: VARCHAR(10)
+    nullable: false
+    comment: process / task / fragment / object
+    fk: tbl_code(code) [TPLKIND]
+  - name: category
+    type: VARCHAR(500)
+    nullable: true
+    comment: Leaf classification category id
+  - name: category_path_json
+    type: LONGTEXT
+    nullable: true
+    comment: Ordered category path array, JSON
+  - name: tags_json
+    type: LONGTEXT
+    nullable: false
+    comment: JSON array of tags
+  - name: system_category_cd
+    type: VARCHAR(10)
+    nullable: false
+    comment: sap / legacy / manual / none
+    fk: tbl_code(code) [SYSCAT]
+  - name: source_asset_id
+    type: BIGINT
+    nullable: true
+    comment: Asset this template was saved from, if any (provenance)
+    fk: tbl_asset_meta(id) ON DELETE SET NULL
+    index: IDX_TEMPLATE_SOURCE
+  - name: source_version_name
+    type: VARCHAR(500)
+    nullable: true
+    comment: Version name at the time of the save-as-template snapshot
+  - name: payload_json
+    type: LONGTEXT
+    nullable: false
+    comment: 'Snapshot payload: {bpmn?, meta?}'
+  - name: scope_cd
+    type: VARCHAR(10)
+    nullable: false
+    comment: enterprise / public
+    fk: tbl_code(code) [TPLSCOPE]
+  - name: downloads
+    type: INT
+    nullable: false
+    comment: Download counter (mock)
+    default: '0'
+  - name: created_by
+    type: BIGINT
+    nullable: false
+    comment: Who saved this template
+    fk: tbl_tenant_user(id)
+  - name: created_at
+    type: TIMESTAMP
+    nullable: false
+    comment: Row creation time
+    default: CURRENT_TIMESTAMP
+  - name: updated_at
+    type: TIMESTAMP
+    nullable: false
+    comment: Row last-update time
+    default: CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+  indexes:
+  - UNIQUE uq_template_key (display_key)
+  notes: null
+  flag: "§6 senior-dev-signoff pending — distinct from the thin AssetType='Template' catalog kind; kept outside the meta/version/lifecycle machinery."
+- name: tbl_community_post
+  comment: Company-wide community board post (Q&A / discussion). Standalone entity, not anchored to an asset (asset links are many-to-many via tbl_community_post_asset_ref).
+  columns:
+  - name: id
+    type: BIGINT
+    nullable: false
+    comment: Community post surrogate PK
+    default: AUTO_INCREMENT
+    pk: true
+  - name: display_key
+    type: VARCHAR(20)
+    nullable: false
+    comment: Human-readable id, e.g. QP-0001
+    index: UQ_COMMUNITY_POST_KEY
+  - name: title
+    type: VARCHAR(500)
+    nullable: false
+    comment: Post title
+  - name: body_markdown
+    type: TEXT
+    nullable: false
+    comment: Post body, Markdown
+  - name: author_id
+    type: BIGINT
+    nullable: false
+    comment: Post author
+    fk: tbl_tenant_user(id)
+  - name: status_cd
+    type: VARCHAR(20)
+    nullable: false
+    comment: open / resolved
+  - name: view_count
+    type: INT
+    nullable: false
+    comment: Number of times the post has been opened
+    default: '0'
+  - name: created_at
+    type: TIMESTAMP
+    nullable: false
+    comment: Row creation time
+    default: CURRENT_TIMESTAMP
+  - name: updated_at
+    type: TIMESTAMP
+    nullable: false
+    comment: Row last-update time
+    default: CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+  indexes:
+  - UNIQUE uq_community_post_key (display_key)
+  notes: null
+  flag: null
+- name: tbl_community_post_reply
+  comment: Reply to a community post, or a reply to another reply (nested via parent_reply_id).
+  columns:
+  - name: id
+    type: BIGINT
+    nullable: false
+    comment: Reply surrogate PK
+    default: AUTO_INCREMENT
+    pk: true
+  - name: post_id
+    type: BIGINT
+    nullable: false
+    comment: Parent post
+    fk: tbl_community_post(id) ON DELETE CASCADE
+    index: IDX_CMPOST_REPLY_POST
+  - name: parent_reply_id
+    type: BIGINT
+    nullable: true
+    comment: Parent reply for nesting; null = top-level reply on the post
+    fk: tbl_community_post_reply(id) ON DELETE CASCADE
+  - name: author_id
+    type: BIGINT
+    nullable: false
+    comment: Reply author
+    fk: tbl_tenant_user(id)
+  - name: body
+    type: VARCHAR(4000)
+    nullable: false
+    comment: Reply text
+  - name: created_at
+    type: TIMESTAMP
+    nullable: false
+    comment: Row creation time
+    default: CURRENT_TIMESTAMP
+  indexes: []
+  notes: null
+  flag: null
+- name: tbl_community_post_asset_ref
+  comment: Many-to-many link from a community post to any asset (Process/SOP/Document/…). A link, not containment.
+  columns:
+  - name: id
+    type: BIGINT
+    nullable: false
+    comment: Asset-ref surrogate PK
+    default: AUTO_INCREMENT
+    pk: true
+  - name: post_id
+    type: BIGINT
+    nullable: false
+    comment: Parent post
+    fk: tbl_community_post(id) ON DELETE CASCADE
+    index: IDX_CMPOST_ASSETREF_POST
+  - name: asset_id
+    type: BIGINT
+    nullable: false
+    comment: Linked asset
+    fk: tbl_asset_meta(id)
+    index: IDX_CMPOST_ASSETREF_ASSET
+  indexes: []
+  notes: null
+  flag: null
