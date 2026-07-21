@@ -1,0 +1,23 @@
+/* Sidebar search box. Co-located with SearchBox.tsx (global scope, unhashed
+   class names — matches the co-located-CSS convention). Tokens only, no new hex. */
+.search { margin-bottom:16px; }
+.search-input { width:100%; box-sizing:border-box; font:500 var(--pap-fs-small)/1.3 var(--font-sans);
+  color:var(--pap-ink-900); background:var(--pap-surface); border:1px solid var(--pap-border);
+  border-radius:8px; padding:8px 11px; outline:none; }
+.search-input:focus { border-color:var(--pap-accent); background:var(--pap-bg); box-shadow:0 0 0 3px var(--pap-accent-soft); }
+.search-input::placeholder { color:var(--pap-ink-300); }
+
+.search-results { list-style:none; margin:8px 0 0; padding:4px; border:1px solid var(--pap-border);
+  border-radius:8px; background:var(--pap-bg); max-height:52vh; overflow-y:auto; }
+.search-hit { display:grid; grid-template-columns:auto 1fr; gap:2px 8px; align-items:baseline;
+  padding:7px 8px; border-radius:6px; cursor:pointer; }
+.search-hit.active { background:var(--pap-accent-soft); }
+.search-kind { grid-row:1; font:700 .62rem/1 var(--font-sans); letter-spacing:.04em; color:var(--pap-ink-500);
+  background:var(--pap-surface); border:1px solid var(--pap-border); border-radius:4px; padding:3px 5px; }
+.search-hit.active .search-kind { color:var(--pap-accent-strong); border-color:var(--pap-accent); }
+.search-label { grid-row:1; font-size:var(--pap-fs-small); color:var(--pap-ink-900); word-break:break-word; }
+.search-hit.is-file .search-label { font-family:var(--font-mono); font-size:.78rem; }
+.search-excerpt { grid-column:2; grid-row:2; font-size:.74rem; color:var(--pap-ink-500); line-height:1.5;
+  overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
+.search-excerpt mark { background:var(--pap-accent-soft); color:var(--pap-accent-strong); border-radius:3px; padding:0 2px; }
+.search-note { padding:8px; font-size:var(--pap-fs-small); color:var(--pap-ink-500); text-align:center; }
