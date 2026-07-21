@@ -1,6 +1,7 @@
 "use client";
 import { TOC } from "@/lib/data/toc";
 import { useScrollspy } from "@/hooks/useScrollspy";
+import SearchBox from "./SearchBox";
 import "./Sidebar.css";
 
 const IDS = TOC.map((t) => t.id);
@@ -12,6 +13,7 @@ export default function Sidebar() {
     <aside className="toc" aria-label="목차">
       <div className="toc-brand">Claude Code 하네스 · 사용 패턴</div>
       <div className="toc-sub-brand">프로젝트 무관 · 재사용 가능한 harness 요약</div>
+      <SearchBox />
       <nav>
         {TOC.map((t) => (
           <a key={t.id} href={`#${t.id}`} className={active === t.id ? "active" : undefined}>

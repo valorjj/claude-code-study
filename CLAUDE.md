@@ -38,6 +38,7 @@ only a background example.
 | **add / edit a section** | add `components/sections/<Name>.tsx`, register it in `src/app/page.tsx`, add a `{id,label}` to `src/lib/data/toc.ts` (id must equal the `<section id>`) |
 | **change the walkthrough / arch / size diagram** | edit data in `src/lib/data/*.ts`; behavior in `components/diagrams/*` + `hooks/useStepper.ts` |
 | **change the markdown viewer / copy** | `components/MdModalProvider.tsx` + `lib/mdHighlight.ts` |
+| **change search / its index** | matching+ranking in `src/lib/search.ts` (pure); lazy index + query state in `src/hooks/useSearch.ts`; UI in `components/SearchBox.tsx` (+ `.css`). Sections indexed from `TOC`; files from `loadAllMdFiles()` (shared lazy chunk — keeps content out of the initial bundle). |
 | **change tokens / global base** | `src/app/globals.css` (tokens + element defaults + shared helpers only) |
 | **change a component's styles** | edit the co-located `<Component>.css` next to its `.tsx` (global scope, unchanged class names) |
 | **add a rule you keep repeating** | promote it to a test/CI check (see `.github/workflows/ci.yml`) |
