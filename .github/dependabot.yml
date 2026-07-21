@@ -11,6 +11,13 @@ updates:
         update-types:
           - minor
           - patch
+    ignore:
+      # Toolchain majors are coupled to Next/eslint-config-next and broke CI when
+      # attempted (TS 7, ESLint 10). Handle these deliberately, not via auto-PRs.
+      - dependency-name: "typescript"
+        update-types: ["version-update:semver-major"]
+      - dependency-name: "eslint"
+        update-types: ["version-update:semver-major"]
 
   - package-ecosystem: github-actions
     directory: "/"
