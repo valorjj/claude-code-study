@@ -1,36 +1,38 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Claude Code 하네스 — 사용 패턴 (claude-code-study)
 
-## Getting Started
+프로젝트에 무관하게 재사용하는 **Claude Code harness 패턴**을 정리한 단일 페이지 문서를
+**Next.js(App Router) + TypeScript**로 포팅한 것. 팀·미래 프로젝트용 레퍼런스.
+(원본은 `process-governance`의 자립형 HTML 문서였고, 이 저장소는 그것을 컴포넌트로 분해한 것.)
 
-First, run the development server:
+## 개발
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+npm install
+npm run dev      # http://localhost:3000
+npm run build    # 프로덕션 빌드 (정적 프리렌더)
+npm run lint
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## 구조
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+```
+src/
+├─ app/            layout.tsx · page.tsx (섹션 조립) · globals.css (디자인 토큰 + 스타일)
+├─ components/
+│  ├─ Sidebar · ProgressBar · MdModalProvider (Monokai 뷰어 + 복사) · FileChip
+│  ├─ diagrams/   Walkthrough · ArchDiagram · SizeFlow  (SVG 엣지 계산 + 재생)
+│  └─ sections/   Intro · Example · DocsTree · Architecture · Harness · Sizing ·
+│                 Quality · Pain · Stuck · Questioning · Adopt
+├─ hooks/         useScrollspy · useStepper
+└─ lib/           mdHighlight.ts · mdFiles.(ts|json) · data/*.ts
+```
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+- **인터랙션**: 사이드바 스크롤스파이, 결정-흐름 워크스루(재생/속도/단계), 애니메이션
+  레이어드 아키텍처(전체화면·루프), 요청-크기 플로우, 파일칩/트리 → 실제 마크다운을
+  Monokai Pro 모달로 열람(+복사).
+- **콘텐츠**: `src/lib/mdFiles.json`에 참조 파일 원문이 내장(자립형).
 
-## Learn More
+## 배포 (Vercel)
 
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+Vercel에서 이 저장소를 Import → 프레임워크 프리셋 **Next.js** 자동 감지 → Deploy.
+별도 환경변수 없음.
