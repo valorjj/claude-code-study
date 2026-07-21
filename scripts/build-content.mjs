@@ -1,6 +1,10 @@
 // Content pipeline: content/ is the SSOT for embedded reference files.
 // Reads content/manifest.json ([{ key, p }]) + each file at content/<p>,
-// and generates src/lib/mdFiles.json ({ [key]: { p, c } }).
+// and generates two artifacts:
+//   - src/lib/mdFiles.json     ({ [key]: { p, c } }) — the heavy content map,
+//     dynamic-imported (lazy) so it stays out of the initial JS bundle.
+//   - src/lib/mdFileKeys.json  (["key", ...])         — the tiny key list,
+//     statically imported by FileChip for the synchronous clickability check.
 //
 // Run: `npm run content`. Also runs automatically on predev/prebuild.
 // To add a reference file: drop it under content/<path>, add a {key,p} entry
@@ -21,4 +25,5 @@ for (const { key, p } of manifest) {
 }
 
 writeFileSync(join(root, "src/lib/mdFiles.json"), JSON.stringify(out), "utf8");
-console.log(`build-content: wrote src/lib/mdFiles.json (${manifest.length} files)`);
+writeFileSync(join(root, "src/lib/mdFileKeys.json"), JSON.stringify(Object.keys(out)), "utf8");
+console.log(`build-content: wrote src/lib/mdFiles.json + mdFileKeys.json (${manifest.length} files)`);

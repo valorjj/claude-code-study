@@ -8,6 +8,7 @@ type MdFile = { p: string; c: string };
 
 const manifest = JSON.parse(readFileSync("content/manifest.json", "utf8")) as ManifestEntry[];
 const mdFiles = JSON.parse(readFileSync("src/lib/mdFiles.json", "utf8")) as Record<string, MdFile>;
+const mdFileKeys = JSON.parse(readFileSync("src/lib/mdFileKeys.json", "utf8")) as string[];
 
 describe("content pipeline (content/ ↔ generated mdFiles.json)", () => {
   it("every manifest key is present with non-empty content", () => {
@@ -27,6 +28,12 @@ describe("content pipeline (content/ ↔ generated mdFiles.json)", () => {
   it("has no duplicate manifest keys", () => {
     const keys = manifest.map((m) => m.key);
     expect(new Set(keys).size).toBe(keys.length);
+  });
+
+  it("the tiny keys manifest matches the content map exactly", () => {
+    // mdFileKeys.json drives hasMdFile() without loading the heavy content;
+    // it must stay a faithful key list of mdFiles.json (both are generated).
+    expect([...mdFileKeys].sort()).toEqual(Object.keys(mdFiles).sort());
   });
 });
 

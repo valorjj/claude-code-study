@@ -1,6 +1,6 @@
 "use client";
-import { createContext, useCallback, useContext, useEffect, useState } from "react";
-import { mdFiles } from "@/lib/mdFiles";
+import { createContext, useCallback, useContext, useEffect, useRef, useState } from "react";
+import { hasMdFile, loadMdFile, type MdFile } from "@/lib/mdFiles";
 import { highlightMarkdown } from "@/lib/mdHighlight";
 
 type Ctx = { open: (key: string) => void };
@@ -16,33 +16,40 @@ export function useMd(): Ctx {
  * global stylesheet (.md-modal etc.), ported verbatim from the standalone doc.
  */
 export default function MdModalProvider({ children }: { children: React.ReactNode }) {
-  const [key, setKey] = useState<string | null>(null);
+  const [file, setFile] = useState<MdFile | null>(null);
   const [copied, setCopied] = useState(false);
+  // Monotonic token: a later open() (or close()) invalidates an in-flight load,
+  // so a fast A→B click never shows A's content once it finally resolves.
+  const reqRef = useRef(0);
 
   const open = useCallback((k: string) => {
-    if (mdFiles[k]) {
-      setCopied(false);
-      setKey(k);
-    }
+    if (!hasMdFile(k)) return;
+    setCopied(false);
+    const req = ++reqRef.current;
+    // First call lazily fetches the ~224KB content chunk; later calls hit cache.
+    loadMdFile(k).then((f) => {
+      if (req === reqRef.current && f) setFile(f);
+    });
   }, []);
-  const close = useCallback(() => setKey(null), []);
+  const close = useCallback(() => {
+    reqRef.current++; // cancel any in-flight load
+    setFile(null);
+  }, []);
 
   useEffect(() => {
-    document.body.style.overflow = key ? "hidden" : "";
+    document.body.style.overflow = file ? "hidden" : "";
     return () => {
       document.body.style.overflow = "";
     };
-  }, [key]);
+  }, [file]);
 
   useEffect(() => {
     const onKey = (e: KeyboardEvent) => {
       if (e.key === "Escape") close();
     };
-    if (key) window.addEventListener("keydown", onKey);
+    if (file) window.addEventListener("keydown", onKey);
     return () => window.removeEventListener("keydown", onKey);
-  }, [key, close]);
-
-  const file = key ? mdFiles[key] : null;
+  }, [file, close]);
 
   const copy = useCallback(async () => {
     if (!file) return;

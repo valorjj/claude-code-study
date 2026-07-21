@@ -23,7 +23,7 @@ jobs:
         run: npm run content
 
       - name: Fail if content is out of sync (edit content/, run `npm run content`)
-        run: git diff --exit-code src/lib/mdFiles.json
+        run: git diff --exit-code src/lib/mdFiles.json src/lib/mdFileKeys.json
 
       - name: Typecheck
         run: npm run typecheck
