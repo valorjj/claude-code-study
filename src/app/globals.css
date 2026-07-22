@@ -15,6 +15,18 @@
   --font-sans:-apple-system,BlinkMacSystemFont,'Segoe UI','Noto Sans KR','Malgun Gothic',sans-serif;
   --font-mono:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
   --toc-w:276px;
+  /* Vivid diagram category colors — deliberately more saturated than the calm
+     UI accents above, so the three diagrams read boldly. Each has a soft tint
+     for fills/backgrounds. Referenced by the diagram CSS + the legend/arrowhead
+     colors in archModel.ts / ArchDiagram.tsx / SizeFlow.tsx (single source). */
+  --dia-slate:#3f4b5e;   --dia-slate-soft:#e9edf3;
+  --dia-blue:#2f6ff0;    --dia-blue-soft:#dde9ff;
+  --dia-blue-deep:#1f56d6;
+  --dia-violet:#8b5cf6;  --dia-violet-soft:#efe7ff;
+  --dia-indigo:#635bff;  --dia-indigo-soft:#e7e5ff;
+  --dia-amber:#f59e0b;   --dia-amber-soft:#ffefcf;
+  --dia-green:#12a150;   --dia-green-soft:#d7f4e3;
+  --dia-return:#8a97a8;
 }
 html { scroll-behavior:smooth; }
 body { margin:0; font-family:var(--font-sans); font-size:var(--pap-fs-body); line-height:1.7;

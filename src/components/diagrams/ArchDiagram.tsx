@@ -160,16 +160,18 @@ export default function ArchDiagram() {
             <defs>
               {(
                 [
-                  ["m-main", "#747376"],
-                  ["m-read", "#4c8ff0"],
-                  ["m-return", "#a8a8ab"],
-                  ["m-gate", "#e08a00"],
-                  ["m-write", "#57ab5a"],
-                  ["m-feedback", "#3b7fe0"],
+                  ["m-main", "--dia-slate"],
+                  ["m-read", "--dia-blue"],
+                  ["m-return", "--dia-return"],
+                  ["m-gate", "--dia-amber"],
+                  ["m-write", "--dia-green"],
+                  ["m-feedback", "--dia-indigo"],
                 ] as const
-              ).map(([id, fill]) => (
+              ).map(([id, token]) => (
                 <marker key={id} id={id} markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto">
-                  <path d="M0,0 L6,3 L0,6 z" fill={fill} />
+                  {/* var() in inline style resolves the shared --dia-* token, keeping
+                      the arrowhead color in lockstep with the edge stroke (CSS). */}
+                  <path d="M0,0 L6,3 L0,6 z" style={{ fill: `var(${token})` }} />
                 </marker>
               ))}
             </defs>

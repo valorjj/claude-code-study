@@ -91,10 +91,13 @@ export const ARCH_STEPS: ArchStep[] = [
   { label: "되먹임 — 하네스에 되쓴다", nodes: ["commit", "claude", "memory"], edges: [16, 17] },
 ];
 
+// Colors are the shared --dia-* tokens (globals.css) as var() strings, applied
+// via inline style in Architecture.tsx — one source of truth with the edge
+// strokes (ArchDiagram.css) and arrowheads (ArchDiagram.tsx).
 export const ARCH_LEGEND: { sw: string; border: string; label: string }[] = [
-  { sw: "#eaf2fe", border: "#4c8ff0", label: "하네스 · 마크다운 (읽고 → 되쓰는)" },
-  { sw: "#f5f6fa", border: "#a8a8ab", label: "결론 반환" },
-  { sw: "#fff4e5", border: "#e08a00", label: "게이트" },
-  { sw: "#eaf7ec", border: "#57ab5a", label: "산출물 (WRITE)" },
-  { sw: "#eaf2fe", border: "#3b7fe0", label: "되먹임" },
+  { sw: "var(--dia-blue-soft)", border: "var(--dia-blue)", label: "하네스 · 마크다운 (읽고 → 되쓰는)" },
+  { sw: "var(--dia-slate-soft)", border: "var(--dia-return)", label: "결론 반환" },
+  { sw: "var(--dia-amber-soft)", border: "var(--dia-amber)", label: "게이트" },
+  { sw: "var(--dia-green-soft)", border: "var(--dia-green)", label: "산출물 (WRITE)" },
+  { sw: "var(--dia-indigo-soft)", border: "var(--dia-indigo)", label: "되먹임" },
 ];

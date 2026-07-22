@@ -23,15 +23,16 @@
 .walk-files { display:flex; flex-wrap:wrap; gap:6px; margin:2px 0 7px; }
 .walk-files code { font-size:.76em; }
 .phase { display:inline-block; font:700 .66rem/1 var(--font-sans); letter-spacing:.05em; text-transform:uppercase; padding:4px 8px; border-radius:6px; }
+/* Solid, saturated phase fills (were pale tints) for stronger emphasis. */
 .phase-req { background:#17161B; color:#fff; }
-.phase-read { background:var(--pap-accent-soft); color:var(--pap-accent-strong); }
-.phase-proc { background:var(--pap-surface-2); color:var(--pap-ink-700); }
-.phase-judge { background:var(--pap-surface); color:var(--pap-ink-500); border:1px solid var(--pap-border); }
-.phase-gate { background:#fff4e5; color:#b45900; }
-.phase-write { background:#eaf7ec; color:#2f7d38; }
-.walk.js-anim .walk-step { opacity:.48; transition:opacity .25s; }
+.phase-read { background:var(--dia-blue); color:#fff; }
+.phase-proc { background:var(--dia-slate); color:#fff; }
+.phase-judge { background:var(--dia-violet); color:#fff; }
+.phase-gate { background:var(--dia-amber); color:#17161B; }
+.phase-write { background:var(--dia-green); color:#fff; }
+.walk.js-anim .walk-step { opacity:.45; transition:opacity .25s; }
 .walk.js-anim .walk-step.done { opacity:.8; }
 .walk.js-anim .walk-step.current { opacity:1; }
-.walk.js-anim .walk-step.current .walk-card { border-color:var(--pap-accent); background:var(--pap-accent-soft); box-shadow:0 2px 14px rgba(76,143,240,.18); }
-.walk.js-anim .walk-step.current .walk-num { color:#fff; background:var(--pap-accent); border-color:var(--pap-accent); box-shadow:0 0 0 4px var(--pap-accent-soft); }
+.walk.js-anim .walk-step.current .walk-card { border-color:var(--dia-blue); background:var(--dia-blue-soft); box-shadow:0 0 0 1px var(--dia-blue), 0 3px 18px rgba(47,111,240,.26); }
+.walk.js-anim .walk-step.current .walk-num { color:#fff; background:var(--dia-blue); border-color:var(--dia-blue); box-shadow:0 0 0 4px var(--dia-blue-soft); }
 .walk.js-anim .walk-step.done .walk-num { color:#fff; background:var(--pap-ink-300); border-color:var(--pap-ink-300); }

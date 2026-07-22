@@ -70,7 +70,8 @@ export default function SizeFlow() {
       >
         <defs>
           <marker id="s-arrow" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto">
-            <path d="M0,0 L6,3 L0,6 z" fill="#b8b8bb" />
+            {/* var() keeps the arrowhead in lockstep with the edge stroke color. */}
+            <path d="M0,0 L6,3 L0,6 z" style={{ fill: "var(--dia-slate)" }} />
           </marker>
         </defs>
         {paths.map((d, i) => (

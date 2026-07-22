@@ -6,12 +6,13 @@
 .scol { position:relative; z-index:2; display:flex; flex-direction:column; gap:16px; }
 .snode { border:1px solid var(--pap-border); border-radius:9px; background:var(--pap-surface); padding:11px 14px; font-size:.9rem; color:var(--pap-ink-900); }
 .snode.term { background:#17161B; color:#fff; border-color:#17161B; text-align:center; border-radius:22px; align-self:center; font-weight:600; }
-.snode.dec { text-align:center; font-weight:600; }
-.snode.gate { background:#fff4e5; border-color:#e08a00; color:#8a5a00; text-align:center; font-weight:600; }
+.snode.dec { text-align:center; font-weight:700; background:var(--dia-blue-soft); border-color:var(--dia-blue); color:var(--dia-blue-deep); }
+.snode.gate { background:var(--dia-amber-soft); border-color:var(--dia-amber); color:#8a5a00; text-align:center; font-weight:600; }
 .sbranch { display:flex; align-items:center; gap:11px; border:1px solid var(--pap-border); border-radius:9px; background:var(--pap-bg); padding:10px 13px; }
-.sbadge { font:800 .85rem/1 var(--font-mono); color:#fff; background:var(--pap-accent); border-radius:6px; padding:7px 10px; flex:0 0 auto; }
-.sbadge.mid { background:#7a8bd0; }
-.sbadge.big { background:#3b7fe0; }
+/* Vivid, distinct trio so 小 / 中 / 大 read at a glance. */
+.sbadge { font:800 .85rem/1 var(--font-mono); color:#fff; background:var(--dia-green); border-radius:6px; padding:7px 10px; flex:0 0 auto; }
+.sbadge.mid { background:var(--dia-amber); color:#17161B; }
+.sbadge.big { background:var(--dia-blue); }
 .sbr-t { font-weight:600; color:var(--pap-ink-900); font-size:.9rem; }
 .sbr-s { font-size:.76rem; color:var(--pap-ink-500); margin-top:2px; }
-.sflow-edges path { fill:none; stroke:#b8b8bb; stroke-width:1.8; }
+.sflow-edges path { fill:none; stroke:var(--dia-slate); stroke-width:2.2; }
