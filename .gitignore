@@ -20,6 +20,9 @@
 # production
 /build
 
+# single-file HTML export (build-only artifact; run `npm run html`)
+/dist
+
 # misc
 .DS_Store
 *.pem

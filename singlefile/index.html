@@ -1,0 +1,27 @@
+<!doctype html>
+<html lang="ko">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Claude Code 하네스 — 사용 패턴 요약</title>
+    <meta
+      name="description"
+      content="프로젝트 무관 · 재사용 가능한 Claude Code harness 패턴 요약 (팀·미래 프로젝트용)"
+    />
+    <!-- No-FOUC theme init — kept in sync with src/app/layout.tsx. Runs before the
+         bundle so dark mode is flicker-free: saved choice wins, else OS preference. -->
+    <script>
+      (function () {
+        try {
+          var t = localStorage.getItem("pap-theme");
+          if (!t) t = matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light";
+          document.documentElement.dataset.theme = t;
+        } catch (e) {}
+      })();
+    </script>
+  </head>
+  <body>
+    <div id="root"></div>
+    <script type="module" src="/main.tsx"></script>
+  </body>
+</html>

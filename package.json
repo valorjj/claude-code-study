@@ -9,6 +9,7 @@
     "dev": "next dev",
     "prebuild": "npm run content",
     "build": "next build",
+    "html": "npm run content && vite build -c vite.singlefile.config.ts",
     "start": "next start",
     "lint": "eslint",
     "typecheck": "tsc --noEmit",
@@ -33,6 +34,8 @@
     "eslint-config-next": "16.2.10",
     "jsdom": "^29.1.1",
     "typescript": "^5",
+    "vite": "^8.1.5",
+    "vite-plugin-singlefile": "^2.3.3",
     "vitest": "^4.1.10"
   }
 }
