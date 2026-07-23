@@ -21,9 +21,9 @@ export default function Home() {
         <Sidebar />
         <main className="content">
           <Intro />
+          <Architecture />
           <Example />
           <DocsTree />
-          <Architecture />
           <Harness />
           <Sizing />
           <Quality />
