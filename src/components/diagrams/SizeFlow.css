@@ -5,7 +5,7 @@
 .sflow-edges { position:absolute; inset:0; width:100%; height:100%; pointer-events:none; overflow:visible; z-index:1; }
 .scol { position:relative; z-index:2; display:flex; flex-direction:column; gap:16px; }
 .snode { border:1px solid var(--pap-border); border-radius:9px; background:var(--pap-surface); padding:11px 14px; font-size:.9rem; color:var(--pap-ink-900); }
-.snode.term { background:#17161B; color:#fff; border-color:#17161B; text-align:center; border-radius:22px; align-self:center; font-weight:600; }
+.snode.term { background:var(--pap-ink-900); color:var(--pap-bg); border-color:var(--pap-ink-900); text-align:center; border-radius:22px; align-self:center; font-weight:600; }
 .snode.dec { text-align:center; font-weight:700; background:var(--dia-blue-soft); border-color:var(--dia-blue); color:var(--dia-blue-deep); }
 .snode.gate { background:var(--dia-amber-soft); border-color:var(--dia-amber); color:#8a5a00; text-align:center; font-weight:600; }
 .sbranch { display:flex; align-items:center; gap:11px; border:1px solid var(--pap-border); border-radius:9px; background:var(--pap-bg); padding:10px 13px; }

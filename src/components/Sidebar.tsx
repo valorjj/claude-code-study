@@ -2,6 +2,7 @@
 import { TOC } from "@/lib/data/toc";
 import { useScrollspy } from "@/hooks/useScrollspy";
 import SearchBox from "./SearchBox";
+import ThemeToggle from "./ThemeToggle";
 import "./Sidebar.css";
 
 const IDS = TOC.map((t) => t.id);
@@ -11,7 +12,10 @@ export default function Sidebar() {
   const active = useScrollspy(IDS);
   return (
     <aside className="toc" aria-label="목차">
-      <div className="toc-brand">Claude Code 하네스 · 사용 패턴</div>
+      <div className="toc-brand-row">
+        <div className="toc-brand">Claude Code 하네스 · 사용 패턴</div>
+        <ThemeToggle />
+      </div>
       <div className="toc-sub-brand">프로젝트 무관 · 재사용 가능한 harness 요약</div>
       <SearchBox />
       <nav>

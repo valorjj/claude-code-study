@@ -4,7 +4,10 @@
    .tsx (imported there). Class names are unchanged from the standalone doc, so
    the cascade — and the rendered result — is identical to the single-file build.
    Self-contained and CSP-clean: no external stylesheets, fonts, or scripts.
-   Light theme only. */
+   Light is the default; a dark theme overrides the same tokens under
+   :root[data-theme="dark"] (set by the no-FOUC script in layout.tsx +
+   ThemeToggle). Components read tokens, so most of the dark theme is here —
+   only a few hardcoded pills are overridden in their own co-located CSS. */
 *,*::before,*::after{box-sizing:border-box;}
 :root {
   --pap-accent:#4c8ff0; --pap-accent-strong:#3b7fe0; --pap-accent-soft:#eaf2fe;
@@ -28,6 +31,19 @@
   --dia-green:#12a150;   --dia-green-soft:#d7f4e3;
   --dia-return:#8a97a8;
 }
+:root[data-theme="dark"] {
+  --pap-accent:#6aa4f5; --pap-accent-strong:#84b4f7; --pap-accent-soft:#17263f;
+  --pap-ink-900:#f2f1f5; --pap-ink-700:#c9c8cd; --pap-ink-500:#8f8e93; --pap-ink-300:#5c5b60;
+  --pap-bg:#141317; --pap-surface:#1c1b21; --pap-surface-2:#24232a; --pap-border:#34333b;
+  --dia-slate:#8aa0bd;   --dia-slate-soft:#272e3a;
+  --dia-blue:#5b8ef5;    --dia-blue-soft:#182a4a;
+  --dia-blue-deep:#4f83f2;
+  --dia-violet:#a988fa;  --dia-violet-soft:#2b2246;
+  --dia-indigo:#8f89ff;  --dia-indigo-soft:#262346;
+  --dia-amber:#f7b23e;   --dia-amber-soft:#3d2f10;
+  --dia-green:#3cc473;   --dia-green-soft:#103524;
+  --dia-return:#7f8da0;
+}
 html { scroll-behavior:smooth; }
 body { margin:0; font-family:var(--font-sans); font-size:var(--pap-fs-body); line-height:1.7;
   color:var(--pap-ink-700); background:var(--pap-bg); -webkit-font-smoothing:antialiased; }
@@ -49,4 +65,5 @@ table { width:100%; border-collapse:collapse; margin:4px 0 12px; font-size:.93em
 th,td { text-align:left; padding:10px 13px; border:1px solid var(--pap-border); vertical-align:top; }
 thead th { background:var(--pap-surface); color:var(--pap-ink-900); font-weight:700; }
 tbody tr:nth-child(even) { background:#fafbfd; }
+:root[data-theme="dark"] tbody tr:nth-child(even) { background:var(--pap-surface); }
 td .tag { font-family:var(--font-mono); font-weight:700; color:var(--pap-accent-strong); }

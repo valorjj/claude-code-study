@@ -10,6 +10,16 @@ export const metadata: Metadata = {
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="ko">
+      <head>
+        {/* Set the theme before first paint to avoid a flash: saved choice wins,
+            else fall back to the OS preference. Kept inline + tiny on purpose. */}
+        <script
+          dangerouslySetInnerHTML={{
+            __html:
+              "(function(){try{var t=localStorage.getItem('pap-theme');if(!t)t=matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light';document.documentElement.dataset.theme=t;}catch(e){}})();",
+          }}
+        />
+      </head>
       <body>
         <MdModalProvider>{children}</MdModalProvider>
       </body>

@@ -24,7 +24,7 @@
 .walk-files code { font-size:.76em; }
 .phase { display:inline-block; font:700 .66rem/1 var(--font-sans); letter-spacing:.05em; text-transform:uppercase; padding:4px 8px; border-radius:6px; }
 /* Solid, saturated phase fills (were pale tints) for stronger emphasis. */
-.phase-req { background:#17161B; color:#fff; }
+.phase-req { background:var(--pap-ink-900); color:var(--pap-bg); }
 .phase-read { background:var(--dia-blue); color:#fff; }
 .phase-proc { background:var(--dia-slate); color:#fff; }
 .phase-judge { background:var(--dia-violet); color:#fff; }
