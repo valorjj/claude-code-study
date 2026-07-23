@@ -20,7 +20,9 @@ type Pt = { x: number; y: number };
 
 /** Animated layered architecture (Dataflow section). SVG edges computed from node positions. */
 export default function ArchDiagram() {
-  const s = useStepper(ARCH_STEPS.length, { overview: true });
+  // Slower default cadence (vs the stepper's 2600ms) — this diagram is meant to be
+  // read/understood step by step, so 1× gives time to follow each transition.
+  const s = useStepper(ARCH_STEPS.length, { overview: true, baseMs: 4200 });
   const [full, setFull] = useState(false);
   const stageRef = useRef<HTMLDivElement>(null);
   const nodeRefs = useRef<Record<string, HTMLDivElement | null>>({});

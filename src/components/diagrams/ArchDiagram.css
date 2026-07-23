@@ -15,7 +15,7 @@
 .arch-phase { font:600 .84rem/1.3 var(--font-sans); color:var(--pap-accent-strong); }
 .arch-count { margin-left:auto; font:700 .84rem/1 var(--font-mono); color:var(--pap-ink-500); }
 .arch-stage { position:relative; overflow-x:auto; padding:26px 22px; }
-.arch { position:relative; display:grid; grid-auto-flow:column; grid-auto-columns:minmax(150px,1fr); gap:26px; min-width:960px; align-items:start; }
+.arch { position:relative; display:grid; grid-auto-flow:column; grid-auto-columns:minmax(150px,1fr); gap:40px; min-width:1080px; align-items:start; }
 .arch-edges { position:absolute; inset:0; width:100%; height:100%; pointer-events:none; z-index:1; overflow:visible; }
 .arch-col { position:relative; z-index:2; }
 .arch-layer { border:1px solid var(--pap-border); border-radius:12px; background:var(--pap-bg); overflow:hidden; }
@@ -70,7 +70,7 @@
 /* fullscreen (bigger when clicked) */
 .arch-wrap.fullscreen { position:fixed; inset:0; z-index:100; border-radius:0; display:flex; flex-direction:column; background:var(--pap-bg); }
 .arch-wrap.fullscreen .arch-stage { flex:1 1 auto; overflow:auto; }
-.arch-wrap.fullscreen .arch { min-width:0; }
+.arch-wrap.fullscreen .arch { min-width:0; gap:clamp(52px,6vw,120px); }
 .arch-wrap.fullscreen .arch-node { padding:12px 14px; }
 .arch-wrap.fullscreen .arch-node .an-t { font-size:.98rem; }
 .arch-wrap.fullscreen .arch-node .an-s { font-size:.8rem; }
