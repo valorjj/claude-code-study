@@ -84,6 +84,13 @@ export const WALK_STEPS: WalkStep[] = [
     rationale: "--primary-* 금지 · data-density 선언 · hex 베이스라인 · 리뷰 subagent · 완료 전 검증.",
   },
   {
+    phase: "gate",
+    phaseLabel: "게이트 · 시각 검증",
+    title: "Playwright 브라우저 검증",
+    files: ["e2e/search-bar.spec.ts"],
+    rationale: "실제 브라우저에서 SearchBar 렌더 · 스크린샷으로 시각 확인 → 커밋 전 최종 게이트.",
+  },
+  {
     phase: "write",
     phaseLabel: "WRITE",
     title: "산출물 커밋",
