@@ -1,0 +1,33 @@
+/* Harness accordion table. Co-located with HarnessTable.tsx; global scope.
+   Base table styling comes from globals.css; this adds the clickable-row
+   affordance + the expanding detail panel. */
+.harness-table .harness-row { cursor:pointer; transition:background .15s; }
+.harness-table .harness-row:hover { background:var(--pap-accent-soft); }
+.harness-table .harness-row:focus-visible { outline:2px solid var(--pap-accent); outline-offset:-2px; }
+.harness-table .harness-row.open > td { background:var(--pap-accent-soft); border-bottom-color:transparent; }
+.harness-table .harness-row.open > td:first-child { font-weight:700; }
+
+/* Caret before the 요소 label; rotates when open. */
+.harness-caret { display:inline-block; width:0; height:0; margin-right:9px; vertical-align:middle;
+  border-left:5px solid var(--pap-ink-500); border-top:4px solid transparent; border-bottom:4px solid transparent;
+  transition:transform .18s ease; }
+.harness-table .harness-row.open .harness-caret { transform:rotate(90deg); }
+
+/* Detail panel — full-width row beneath the clicked one. */
+.harness-table .harness-detail-row > td { padding:0; border-top:0; background:var(--pap-surface); }
+.harness-detail { padding:14px 16px 16px; animation:harness-detail-in .2s ease both; }
+.harness-what { margin:0 0 8px; color:var(--pap-ink-900); font-size:.95em; line-height:1.65; }
+.harness-why { margin:0; color:var(--pap-ink-500); font-size:.86em; }
+.harness-why::before { content:"왜 "; font-weight:700; color:var(--pap-accent-strong); }
+.harness-examples { display:flex; flex-wrap:wrap; align-items:center; gap:8px; margin-top:12px; }
+.harness-examples-label { font-size:.76rem; font-weight:700; letter-spacing:.04em; color:var(--pap-ink-500);
+  text-transform:uppercase; margin-right:2px; }
+/* Clickable file chips (FileChip chip variant) — mirror the walkthrough affordance. */
+.harness-examples code.md-clickable { cursor:pointer; border-color:var(--pap-accent); color:var(--pap-accent-strong);
+  text-decoration:underline dotted; text-underline-offset:2px; }
+.harness-examples code.md-clickable:hover { background:var(--pap-accent-soft); }
+@keyframes harness-detail-in { from { opacity:0; transform:translateY(-4px); } to { opacity:1; transform:none; } }
+@media (prefers-reduced-motion:reduce) {
+  .harness-detail { animation:none; }
+  .harness-caret { transition:none; }
+}

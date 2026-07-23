@@ -24,6 +24,14 @@
     "p": ".claude/skills/svelte5-boxwood/SKILL.md"
   },
   {
+    "key": ".claude/skills/pg-feature-pipeline/",
+    "p": ".claude/skills/pg-feature-pipeline/SKILL.md"
+  },
+  {
+    "key": ".claude/agents/code-reviewer.md",
+    "p": ".claude/agents/code-reviewer.md"
+  },
+  {
     "key": ".claude/hooks/pap-policy-guard.mjs",
     "p": ".claude/hooks/pap-policy-guard.mjs"
   },

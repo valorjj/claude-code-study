@@ -26,7 +26,9 @@ only a background example.
    `js-anim`/`current`/`done`/`hi`/`on` state classes) and section `id`s drive scrollspy +
    TOC anchors — hashing them would break rendering. Keep the look identical when refactoring.
 3. **Client vs server**: interactive pieces (`"use client"`) live in `components/diagrams/*`,
-   `MdModalProvider`, `Sidebar`, `ProgressBar`, `FileChip`. Sections are server components.
+   `MdModalProvider`, `Sidebar`, `ProgressBar`, `FileChip`, `ThemeToggle`, `HarnessTable`.
+   Sections are server components (the Harness section delegates its table to the client
+   `HarnessTable`). `PageBody` is the shared, framework-neutral section list (see below).
 4. **No network at runtime**: content is embedded; do not fetch remote assets/fonts.
 5. **Keep it deployable**: `npm run build` must pass; Vercel preset = Next.js, no env vars.
 
@@ -49,6 +51,7 @@ only a background example.
 npm run dev        # http://localhost:3000 (regenerates content first)
 npm run build      # production build (regenerates content first)
 npm run content    # regenerate src/lib/mdFiles.json from content/
+npm run html       # single self-contained dist/index.html (Vite singlefile; gitignored artifact)
 npm run typecheck  # tsc --noEmit
 npm run lint
 ```
@@ -61,7 +64,8 @@ content/            # SSOT for embedded reference files + manifest.json
 scripts/build-content.mjs   # content/ -> src/lib/mdFiles.json
 src/
 ├─ app/             layout.tsx · page.tsx (section order) · page.css · globals.css (tokens+base)
-├─ components/  Sidebar · ProgressBar · MdModalProvider · FileChip  (+ co-located <Name>.css)
+├─ components/  Sidebar · ProgressBar · MdModalProvider · FileChip · ThemeToggle ·
+│               PageBody (shared section list) · HarnessTable                (+ co-located <Name>.css)
 │  ├─ diagrams/ Walkthrough · ArchDiagram · SizeFlow                (+ co-located <Name>.css)
 │  └─ sections/ Intro · Example · DocsTree · Architecture · Harness · Sizing ·
 │               Quality · Pain · Stuck · Questioning · Adopt        (Architecture/DocsTree/Questioning have .css)
