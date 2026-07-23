@@ -123,6 +123,12 @@ export default function ArchDiagram() {
       } else if (e.key === "ArrowLeft") {
         e.preventDefault();
         s.prev();
+      } else if (e.key === "ArrowUp") {
+        e.preventDefault();
+        s.setSpeed(Math.min(3, Math.round((s.speed + 0.25) * 100) / 100));
+      } else if (e.key === "ArrowDown") {
+        e.preventDefault();
+        s.setSpeed(Math.max(0.5, Math.round((s.speed - 0.25) * 100) / 100));
       }
     };
     window.addEventListener("keydown", onKey);
@@ -240,7 +246,7 @@ export default function ArchDiagram() {
       )}
       {full && (
         <div className="arch-kbd-hint" aria-hidden="true">
-          <kbd>Space</kbd> 재생/정지 · <kbd>←</kbd> <kbd>→</kbd> 이동 · <kbd>Esc</kbd> 닫기
+          <kbd>Space</kbd> 재생/정지 · <kbd>←</kbd> <kbd>→</kbd> 이동 · <kbd>↑</kbd> <kbd>↓</kbd> 속도 · <kbd>Esc</kbd> 닫기
         </div>
       )}
     </div>
