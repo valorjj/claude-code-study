@@ -128,7 +128,7 @@ export const ARCH_STEPS: ArchStep[] = [
     summary: "게이트를 통과한 코드·spec·plan만 산출물로 확정되어 git commit으로 영속화된다.",
   },
   {
-    label: "되먹임 — 하네스에 되쓴다",
+    label: "피드백 — 배운 걸 하네스에 되쓴다",
     nodes: ["commit", "claude", "memory"],
     edges: [16, 17],
     summary:
@@ -144,5 +144,5 @@ export const ARCH_LEGEND: { sw: string; border: string; label: string }[] = [
   { sw: "var(--dia-slate-soft)", border: "var(--dia-return)", label: "결론 반환" },
   { sw: "var(--dia-amber-soft)", border: "var(--dia-amber)", label: "게이트" },
   { sw: "var(--dia-green-soft)", border: "var(--dia-green)", label: "산출물 (WRITE)" },
-  { sw: "var(--dia-indigo-soft)", border: "var(--dia-indigo)", label: "되먹임" },
+  { sw: "var(--dia-indigo-soft)", border: "var(--dia-indigo)", label: "피드백" },
 ];
