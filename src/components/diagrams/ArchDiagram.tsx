@@ -4,6 +4,7 @@ import "./ArchDiagram.css";
 import {
   ARCH_COLUMNS,
   ARCH_EDGES,
+  ARCH_LEGEND,
   ARCH_STEPS,
   type EdgeType,
 } from "@/lib/data/archModel";
@@ -107,13 +108,26 @@ export default function ArchDiagram() {
     });
   }, [s]);
 
+  // Keyboard controls — only while in fullscreen "presentation" mode, so Space /
+  // arrows don't hijack normal page scrolling or the search input.
   useEffect(() => {
+    if (!full) return;
     const onKey = (e: KeyboardEvent) => {
-      if (e.key === "Escape" && full) toggleFull();
+      if (e.key === "Escape") toggleFull();
+      else if (e.key === " " || e.key === "Spacebar") {
+        e.preventDefault();
+        s.toggle();
+      } else if (e.key === "ArrowRight") {
+        e.preventDefault();
+        s.next();
+      } else if (e.key === "ArrowLeft") {
+        e.preventDefault();
+        s.prev();
+      }
     };
     window.addEventListener("keydown", onKey);
     return () => window.removeEventListener("keydown", onKey);
-  }, [full, toggleFull]);
+  }, [full, toggleFull, s]);
 
   const activeStep = s.cur > 0 ? ARCH_STEPS[s.cur - 1] : null;
   const activeNodes = new Set(activeStep?.nodes ?? []);
@@ -147,6 +161,14 @@ export default function ArchDiagram() {
         <span className="arch-count">
           {s.cur} / {ARCH_STEPS.length}
         </span>
+      </div>
+      <div className="legend">
+        {ARCH_LEGEND.map((l, i) => (
+          <span key={i} className="lg">
+            <span className="sw" style={{ background: l.sw, borderColor: l.border }} />
+            {l.label}
+          </span>
+        ))}
       </div>
       <div className="arch-stage">
         <div ref={stageRef} className={`arch js-anim${s.cur > 0 ? " stepping" : ""}`}>
@@ -207,6 +229,20 @@ export default function ArchDiagram() {
           ))}
         </div>
       </div>
+      {activeStep && (
+        <div className="arch-toast" key={s.cur}>
+          <span className="arch-toast-n">{s.cur}</span>
+          <div className="arch-toast-body">
+            <div className="arch-toast-t">{activeStep.label}</div>
+            <div className="arch-toast-s">{activeStep.summary}</div>
+          </div>
+        </div>
+      )}
+      {full && (
+        <div className="arch-kbd-hint" aria-hidden="true">
+          <kbd>Space</kbd> 재생/정지 · <kbd>←</kbd> <kbd>→</kbd> 이동 · <kbd>Esc</kbd> 닫기
+        </div>
+      )}
     </div>
   );
 }

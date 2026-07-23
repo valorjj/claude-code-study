@@ -2,7 +2,12 @@
    Global-scope; class names unchanged. .L-* (layer colors), .arch-edges .e-*
    (edge strokes), and .js-anim/.hi/.on state classes are applied from JS/data,
    so they must not be hashed. body.arch-full-open is toggled on <body>. */
-.arch-wrap { border:1px solid var(--pap-border); border-radius:12px; background:var(--pap-bg); overflow:hidden; }
+.arch-wrap { position:relative; border:1px solid var(--pap-border); border-radius:12px; background:var(--pap-bg); overflow:hidden; }
+
+/* Legend — lives inside the diagram box so it shows in fullscreen too. */
+.arch-wrap .legend { display:flex; flex-wrap:wrap; gap:8px 16px; padding:11px 14px; border-bottom:1px solid var(--pap-border); font-size:var(--pap-fs-small); }
+.arch-wrap .legend .lg { display:inline-flex; align-items:center; gap:7px; color:var(--pap-ink-700); }
+.arch-wrap .legend .sw { width:13px; height:13px; border-radius:4px; border:1.5px solid; flex:0 0 auto; }
 .arch-controls { display:flex; align-items:center; gap:8px; padding:12px 14px; border-bottom:1px solid var(--pap-border); background:var(--pap-surface); flex-wrap:wrap; }
 .arch-controls button { font:600 .86rem/1 var(--font-sans); color:var(--pap-ink-700); background:var(--pap-bg); border:1px solid var(--pap-border); border-radius:8px; padding:8px 12px; cursor:pointer; }
 .arch-controls button:hover { background:var(--pap-accent-soft); color:var(--pap-accent-strong); border-color:var(--pap-accent); }
@@ -35,6 +40,27 @@
 .arch-edges .e-gate{stroke:var(--dia-amber);stroke-width:2.6;}
 .arch-edges .e-write{stroke:var(--dia-green);stroke-width:2.6;}
 .arch-edges .e-feedback{stroke:var(--dia-indigo);stroke-width:3;stroke-dasharray:7 5;}
+
+/* Bottom toast — presentation narration for the current step. Overlays the
+   stage, non-interactive; re-mounts per step (key=cur) so it re-animates in. */
+.arch-toast { position:absolute; left:50%; bottom:18px; transform:translateX(-50%);
+  z-index:6; pointer-events:none; display:flex; align-items:center; gap:13px;
+  width:min(680px,calc(100% - 40px)); padding:13px 17px; border-radius:12px;
+  background:var(--pap-ink-900); color:var(--pap-bg);
+  box-shadow:0 10px 34px rgba(0,0,0,.28); animation:arch-toast-in .34s ease both; }
+.arch-toast-n { flex:0 0 auto; width:26px; height:26px; display:inline-flex; align-items:center; justify-content:center;
+  border-radius:50%; background:var(--dia-blue); color:#fff; font:800 .82rem/1 var(--font-mono); }
+.arch-toast-t { font:800 .9rem/1.25 var(--font-sans); margin-bottom:2px; }
+.arch-toast-s { font:500 .82rem/1.45 var(--font-sans); opacity:.85; }
+@keyframes arch-toast-in { from { opacity:0; transform:translate(-50%,10px); } to { opacity:1; transform:translate(-50%,0); } }
+@media (prefers-reduced-motion:reduce) { .arch-toast { animation:none; } }
+
+/* Keyboard hint — fullscreen presentation only. */
+.arch-kbd-hint { position:absolute; right:16px; bottom:18px; z-index:6; pointer-events:none;
+  font:500 .74rem/1 var(--font-sans); color:var(--pap-ink-500); }
+.arch-kbd-hint kbd { font:700 .72rem/1 var(--font-mono); color:var(--pap-ink-700);
+  background:var(--pap-surface); border:1px solid var(--pap-border); border-bottom-width:2px;
+  border-radius:5px; padding:2px 6px; margin:0 1px; }
 
 /* fullscreen (bigger when clicked) */
 .arch-wrap.fullscreen { position:fixed; inset:0; z-index:100; border-radius:0; display:flex; flex-direction:column; background:var(--pap-bg); }

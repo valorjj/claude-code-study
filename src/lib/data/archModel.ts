@@ -3,7 +3,13 @@ export type ArchNode = { id: string; title: string; sub?: string };
 export type ArchColumn = { key: string; head: string; cls: string; nodes: ArchNode[] };
 export type EdgeType = "main" | "read" | "return" | "gate" | "write" | "feedback";
 export type ArchEdge = { from: string; to: string; type: EdgeType };
-export type ArchStep = { label: string; nodes: string[]; edges: number[] };
+export type ArchStep = {
+  label: string;
+  nodes: string[];
+  edges: number[];
+  /** One-line presentation narration shown in the bottom toast for this step. */
+  summary: string;
+};
 
 export const ARCH_COLUMNS: ArchColumn[] = [
   { key: "req", head: "요청", cls: "L-req", nodes: [{ id: "req", title: "요청", sub: "사용자 입력" }] },
@@ -82,13 +88,52 @@ export const ARCH_EDGES: ArchEdge[] = [
 ];
 
 export const ARCH_STEPS: ArchStep[] = [
-  { label: "요청 입력", nodes: ["req", "ctx"], edges: [0] },
-  { label: "하네스 READ — 규칙·설계·기억 로드", nodes: ["claude", "ssot", "memory", "ctx"], edges: [1, 2, 3] },
-  { label: "라우팅 — 무엇을 로드할지 결정", nodes: ["ctx", "router"], edges: [4] },
-  { label: "절차 — 요청 크기별 실행", nodes: ["router", "sub", "tdd", "scratch", "skills"], edges: [5, 6, 7, 8] },
-  { label: "게이트 — 품질 강제", nodes: ["tdd", "sub", "hook", "guard", "review", "verify"], edges: [9, 10, 11, 12, 13] },
-  { label: "WRITE — 산출물 커밋", nodes: ["verify", "code", "commit"], edges: [14, 15] },
-  { label: "되먹임 — 하네스에 되쓴다", nodes: ["commit", "claude", "memory"], edges: [16, 17] },
+  {
+    label: "요청 입력",
+    nodes: ["req", "ctx"],
+    edges: [0],
+    summary: "사용자 요청 하나가 들어와 메인 컨텍스트로 흘러든다. 여기서 전체 흐름이 시작된다.",
+  },
+  {
+    label: "하네스 READ — 규칙·설계·기억 로드",
+    nodes: ["claude", "ssot", "memory", "ctx"],
+    edges: [1, 2, 3],
+    summary:
+      "코드를 만지기 전에 CLAUDE.md(규칙·라우터)·docs SSOT(설계 단일진실)·memory(세션 간 지식)를 먼저 읽어 컨텍스트를 채운다.",
+  },
+  {
+    label: "라우팅 — 무엇을 로드할지 결정",
+    nodes: ["ctx", "router"],
+    edges: [4],
+    summary: "메인 컨텍스트가 요청을 보고 어떤 skill·문서·절차를 로드할지 결정한다.",
+  },
+  {
+    label: "절차 — 요청 크기별 실행",
+    nodes: ["router", "sub", "tdd", "scratch", "skills"],
+    edges: [5, 6, 7, 8],
+    summary:
+      "subagent로 격리 탐색, TDD 루프(Red→Green)로 구현, scratchpad에 임시 작업. 요청 크기에 따라 절차의 무게가 달라진다.",
+  },
+  {
+    label: "게이트 — 품질 강제",
+    nodes: ["tdd", "sub", "hook", "guard", "review", "verify"],
+    edges: [9, 10, 11, 12, 13],
+    summary:
+      "산출물 전 반드시 통과: PreToolUse 훅이 위험 편집 차단, guard 테스트·CI가 정책 강제, 리뷰 subagent·완료 전 검증이 품질 확인.",
+  },
+  {
+    label: "WRITE — 산출물 커밋",
+    nodes: ["verify", "code", "commit"],
+    edges: [14, 15],
+    summary: "게이트를 통과한 코드·spec·plan만 산출물로 확정되어 git commit으로 영속화된다.",
+  },
+  {
+    label: "되먹임 — 하네스에 되쓴다",
+    nodes: ["commit", "claude", "memory"],
+    edges: [16, 17],
+    summary:
+      "이번에 배운 결정을 CLAUDE.md·memory에 되써서 다음 세션의 하네스를 더 똑똑하게 만든다. 루프가 닫힌다.",
+  },
 ];
 
 // Colors are the shared --dia-* tokens (globals.css) as var() strings, applied
