@@ -33,7 +33,12 @@
 .arch.js-anim.stepping .arch-node { opacity:.28; }
 .arch.js-anim.stepping .arch-node.hi { opacity:1; border-color:var(--dia-blue); box-shadow:0 0 0 2px var(--dia-blue), 0 3px 16px rgba(47,111,240,.34); }
 .arch-edges path { fill:none; opacity:.3; transition:opacity .25s; }
-.arch-edges path.on { opacity:1; }
+/* Active edges "flow": marching dashes in the path's draw direction (from → to).
+   Normalized dash period (7+6=13) with a -13 offset loops seamlessly; the per-type
+   stroke color still distinguishes edges. Solid idle edges become flowing when on. */
+.arch-edges path.on { opacity:1; stroke-dasharray:7 6; animation:arch-flow .8s linear infinite; }
+@keyframes arch-flow { to { stroke-dashoffset:-13; } }
+@media (prefers-reduced-motion:reduce) { .arch-edges path.on { animation:none; } }
 .arch-edges .e-main{stroke:var(--dia-slate);stroke-width:2.4;}
 .arch-edges .e-read{stroke:var(--dia-blue);stroke-width:2.4;stroke-dasharray:5 4;}
 .arch-edges .e-return{stroke:var(--dia-return);stroke-width:2.2;stroke-dasharray:2 4;}
